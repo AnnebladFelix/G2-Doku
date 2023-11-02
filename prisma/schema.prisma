@@ -11,12 +11,12 @@ generator client {
 }
 
 model User {
-  id String @id @default(cuid())
-  email String @unique
+  id           String     @id @default(cuid())
+  email        String     @unique
   passwordHash String
-  name String?
-  role Role @default(USER)
-  documents Document[]
+  name         String?
+  role         Role       @default(USER)
+  documents    Document[]
 }
 
 enum Role {
@@ -28,11 +28,11 @@ model Document {
   id          Int      @id @default(autoincrement())
   title       String   @db.VarChar(255)
   description String   @db.Text
-  private      Boolean   @default(false)
+  private     Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  flagged Flagged @default(UNFLAGGED)
-  author      User      @relation(fields: [authorId], references: [id])
+  flagged     Flagged  @default(UNFLAGGED)
+  author      User     @relation(fields: [authorId], references: [id])
   authorId    String
 
   @@index([authorId])
