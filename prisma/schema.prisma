@@ -35,15 +35,16 @@ model Document {
   authorId    String
   flags       Flag[]   @relation("DocumentToFlag")
   deleted     Boolean  @default(false)
+
   @@index([authorId])
 }
 
 model Flag {
-  id          Int      @id @default(autoincrement())
-  documentId  Int
-  userId      String
-  flagged     Flagged  @default(UNFLAGGED)
-  document    Document @relation("DocumentToFlag", fields: [documentId], references: [id])
+  id         Int      @id @default(autoincrement())
+  documentId Int
+  userId     String
+  flagged    Flagged  @default(UNFLAGGED)
+  document   Document @relation("DocumentToFlag", fields: [documentId], references: [id])
 
   @@index([documentId])
   @@index([userId])
