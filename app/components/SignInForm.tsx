@@ -42,10 +42,10 @@ const SignInForm = () => {
             router.refresh();
             router.push("/")
         }
-    }, [status])
+    }, [router, status])
 
   return (
-    <div className='flex flex-col gap-4 bg-gray-400 p-4'>
+    <div className='text-black flex flex-col gap-4 bg-gray-400 p-4'>
         <input type='text' value={email} onChange={(e) => setEmail(e.target.value)}/>
         <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
 
