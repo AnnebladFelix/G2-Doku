@@ -31,11 +31,22 @@ model Document {
   private     Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  flagged     Flagged  @default(UNFLAGGED)
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
-
+  flags       Flag[]   @relation("DocumentToFlag")
+  deleted     Boolean  @default(false)
   @@index([authorId])
+}
+
+model Flag {
+  id          Int      @id @default(autoincrement())
+  documentId  Int
+  userId      String
+  flagged     Flagged  @default(UNFLAGGED)
+  document    Document @relation("DocumentToFlag", fields: [documentId], references: [id])
+
+  @@index([documentId])
+  @@index([userId])
 }
 
 enum Flagged {
