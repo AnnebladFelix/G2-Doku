@@ -7,7 +7,7 @@ export default function Logo() {
       <Link href='/'>
         <Image
         src="/Images/G2-dark-logo.png"
-        width={150}
+        width={75}
         height={0}
         alt='G2 Dokument Logo'
         priority={true}
