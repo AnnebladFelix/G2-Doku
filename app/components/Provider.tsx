@@ -3,9 +3,6 @@
 import React from 'react'
 import { SessionProvider } from 'next-auth/react';
 
-
-
-
 interface ProviderProps {
     children: React.ReactNode | React.ReactNode[];
 }
