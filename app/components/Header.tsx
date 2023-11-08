@@ -22,6 +22,7 @@ export default function Header() {
         ...(isLoggedIn
             ? [
                   { label: "Documents", href: "/documents" },
+                  { label: "Skapa Dokument", href: "/documents/newDoc" },
                   { label: "Logga ut", href: "/auth/signout" },
               ]
             : [{ label: "Logga in", href: "/auth/signin" }]),

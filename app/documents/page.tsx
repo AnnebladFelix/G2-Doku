@@ -6,7 +6,7 @@ import z from "zod";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
-import { Button, Card } from '@radix-ui/themes';
+import { Button, Card, Flex } from '@radix-ui/themes';
 
 type Document = z.infer<typeof getDocumentSchema>
 
@@ -31,15 +31,18 @@ const GetDocumentPage = () =>{
   return (
     <div>
       <div className='my-3'><Button><Link href='/'> Back </Link></Button></div>
-      <div>
+      <div className='flex flex-wrap justify-items-center gap-4'>
         {documents.map((document) => (
-          <Card key={document.id}>
-            <div className='my-3' >
-              <h2>{document.title}</h2>
-              <p>{document.content}</p>
+          <Flex gap="3" direction="row">
+            <Card key={document.id}>
+              <div className='my-3' >
+                <h2>{document.title}</h2>
+                <p>{document.content}</p>
 
-            </div>
-          </Card>
+              </div>
+            </Card>
+          </Flex>
+          
         ))}
 
       </div>
