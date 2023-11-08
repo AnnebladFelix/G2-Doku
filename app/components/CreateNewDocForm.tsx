@@ -3,6 +3,8 @@ import { FormEvent, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { createDocumentSchema } from '@/app/validationSchema';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function CreateNewDocForm() {
   const { data: session, status } = useSession();
@@ -54,10 +56,7 @@ function CreateNewDocForm() {
             <input type="text" className='text-black' value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
           <br />
-          <label>
-            Content:
-            <textarea className='text-black' value={content} onChange={(e) => setContent(e.target.value)} />
-          </label>
+            <ReactQuill theme="snow" className='' value={content} onChange={setContent} />
           <br />
           <button type="submit">Create Document</button>
         </form>
