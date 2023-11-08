@@ -86,6 +86,7 @@ export const authOptions: AuthOptions = {
         async session(params: {session: Session; token: JWT; user:User }) {
             if(params.session.user) {
                 params.session.user.email = params.token.email;
+                params.session.user = params.token;
             }
             return params.session;
     },
@@ -108,5 +109,3 @@ export const authOptions: AuthOptions = {
 const handler = NextAuth(authOptions);
 
 export {handler as GET, handler as POST };
-
-
