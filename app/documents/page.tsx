@@ -33,7 +33,7 @@ const GetDocumentPage = () =>{
       <div className='my-3'><Button><Link href='/'> Back </Link></Button></div>
       <div className='flex flex-wrap justify-items-center gap-4'>
         {documents.map((document) => (
-          <Flex key={document.id} gap="3" direction="row">
+          <Flex className='dark:text-white' key={document.id} gap="3" direction="row">
             <Card >
               <div className='my-3' >
                 <h2>{document.title}</h2>

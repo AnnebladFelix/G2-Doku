@@ -34,6 +34,7 @@ function CreateNewDocForm() {
         console.log('Document created:', data);
         setTitle('');
         setContent('');
+        window.location.href = '/documents';
       } else {
         console.error('Error creating document:', response.data);
       }
@@ -49,16 +50,16 @@ function CreateNewDocForm() {
   if (status === 'authenticated') {
     return (
       <div>
-        <h1>Welcome, {session.user?.email}!</h1>
+        <h1 className='dark:text-white'>Welcome, {session.user?.name}!</h1>
         <form onSubmit={handleFormSubmit}>
-          <label>
-            Title:
+          <label className='dark:text-white'>
+            Title: 
             <input type="text" className='text-black' value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
           <br />
-            <ReactQuill theme="snow" className='' value={content} onChange={setContent} />
+            <ReactQuill theme="snow" className=' flex flex-col items-center mt-4' value={content} onChange={setContent} />
           <br />
-          <button type="submit">Create Document</button>
+          <button className='dark:text-white'>Create Document</button>
         </form>
       </div>
     );
