@@ -1,5 +1,11 @@
+import CreateNewDocForm from "@/app/components/CreateNewDocForm";
+
 function NewDocPage() {
-    return <div>New Doc Page</div>;
+    return (
+        <div>
+            <CreateNewDocForm />
+        </div>
+    )
 }
 
 export default NewDocPage;
