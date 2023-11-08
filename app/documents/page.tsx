@@ -37,7 +37,7 @@ const GetDocumentPage = () =>{
             <Card key={document.id}>
               <div className='my-3' >
                 <h2>{document.title}</h2>
-                <p>{document.content}</p>
+                <div dangerouslySetInnerHTML={{ __html: document.content }} />
 
               </div>
             </Card>
