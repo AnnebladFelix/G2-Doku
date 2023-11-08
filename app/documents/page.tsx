@@ -11,7 +11,7 @@ import { Button, Card, Flex } from '@radix-ui/themes';
 type Document = z.infer<typeof getDocumentSchema>
 
 const GetDocumentPage = () =>{
-  const [documents, setDocuments] = useState<Document[]>([])  
+  const [documents, setDocuments] = useState<Document[]>([])
   const [error, setError] = useState('')
   const router = useRouter();
 
@@ -25,8 +25,10 @@ const GetDocumentPage = () =>{
       }
     };
     fetchDocuments();
-
   },[])
+  const handleEdit = (document: Document) =>{
+    router.push(`/documents/editDoc/?id=`+ document.id)
+  }
 
   return (
     <div>
@@ -34,7 +36,7 @@ const GetDocumentPage = () =>{
       <div className='flex flex-wrap justify-items-center gap-4'>
         {documents.map((document) => (
           <Flex className='dark:text-white' key={document.id} gap="3" direction="row">
-            <Card >
+            <Card onClick={(e) => {handleEdit(document)}}>
               <div className='my-3' >
                 <h2>{document.title}</h2>
                 <div dangerouslySetInnerHTML={{ __html: document.content }} />
@@ -42,7 +44,7 @@ const GetDocumentPage = () =>{
               </div>
             </Card>
           </Flex>
-          
+
         ))}
 
       </div>
