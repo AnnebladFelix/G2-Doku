@@ -29,7 +29,7 @@ export default function Header() {
     ];
 
     return (
-        <div className="flex gap-4 mt-4 text-xl justify-between p-2 border-neutral-500 border-b-2">
+        <div className="header flex gap-4 mt-4 text-xl justify-between p-2 border-neutral-500 border-b-2">
             <Logo />
             <div className="flex gap-4">
                 <ul className="flex space-x-5">
