@@ -1,9 +1,10 @@
-import React from 'react'
+import EditForm from "@/app/components/EditForm"
 
-function EditPage() {
+
+function page() {
   return (
-    <div>EditPage</div>
+    <div><EditForm /></div>
   )
 }
 
-export default EditPage
+export default page
