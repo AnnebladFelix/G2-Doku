@@ -49,8 +49,7 @@ function CreateNewDocForm() {
 
   if (status === 'authenticated') {
     return (
-      <div>
-        <h1 className='welcome dark:text-white'>Welcome, {session.user?.name}!</h1>
+      <>
         <form onSubmit={handleFormSubmit}>
           <label className='welcome-title dark:text-white'>
             Title: 
@@ -61,7 +60,7 @@ function CreateNewDocForm() {
           <br />
           <button className='create-btn dark:text-white'>Create Document</button>
         </form>
-      </div>
+      </> 
     );
   }
 }
