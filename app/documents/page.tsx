@@ -10,27 +10,73 @@ import { Button, Card, Flex, Table } from '@radix-ui/themes';
 
 type Document = z.infer<typeof getDocumentSchema>
 
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleString('sv-SE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+  return formattedDate.replace(',', ''); // Remove the comma in the date string
+};
+
 const GetDocumentPage = () =>{
   const [documents, setDocuments] = useState<Document[]>([])
   const [error, setError] = useState('')
   const router = useRouter();
+  
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const fetchDocuments = async () => {
-      try{
+    const fetchData = async () => {
+      try {
         const response = await axios.get('/api/docs');
         setDocuments(response.data);
-      }catch(error){
-        setError('error fetching issues')
+
+        const authorIds = response.data.map((doc: Document) => doc.authorId);
+        
+        const usersPromises = authorIds.map((authorId) => axios.get(`/api/user/${authorId.name}`));
+        // console.log("Users från:", authorIds);
+        
+        const usersResponse = await Promise.all(usersPromises);
+        setUsers(usersResponse.map((res) => res.data));
+        
+      } catch (error) {
+        setError('Error fetching documents or user data');
       }
     };
-    fetchDocuments();
-  },[])
+
+    /*const fetchUserDetails = async () => {
+      const userPromises =  documents.map((doc) => axios.get(`/api/user/${doc.author}`));
+      
+      try {
+        const userData = await Promise.all(userPromises);
+        console.log(userData)
+        setUsers(userData.map((res) => res.data));
+      } catch (error) {
+        setError('Error fetching user data');
+      }
+    }
+    fetchUserDetails();*/
+    fetchData();
+  },[]);
+
   const handleEdit = (document: Document) =>{
-    router.push(`/documents/editDoc/?id=`+ document.id)
-  }
+    router.push(`/documents/editDoc?id=${document.id}`);
+  };
+
+  
 
   return (
+    
     /*<div>
       <div className='my-3'><Button><Link href='/'> Back </Link></Button></div>
       <div className='flex flex-wrap justify-items-center gap-4'>
@@ -60,13 +106,13 @@ const GetDocumentPage = () =>{
       </Table.Row>
     </Table.Header>
     <Table.Body>
-      {documents.map((document) => (
+      {documents.map((document, authorIds) => (
         <Table.Row key={document.id}>
-          <Table.Cell><button /*onClick={handleButtonClick}*/>{document.title}</button></Table.Cell>
-          <Table.Cell>{document.author}</Table.Cell>
-          <Table.Cell>{document.createdAt}</Table.Cell>
-          <Table.Cell>{document.updatedAt}</Table.Cell>
-          <Table.Cell>{document.author}</Table.Cell>
+          <Table.Cell><button onClick={() => handleEdit(document)}>{document.title}</button></Table.Cell>
+          <Table.Cell>{authorIds}</Table.Cell>
+          <Table.Cell>{formatDate(document.createdAt)}</Table.Cell>
+          <Table.Cell>{formatDate(document.updatedAt)}</Table.Cell>
+          
         </Table.Row>
       ))}
     </Table.Body>
