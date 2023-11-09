@@ -9,6 +9,13 @@ export const getDocumentSchema = z.object({
     updatedAt: z.string(),
 });
 
+export const getUserSchema = z.object({
+    id: z.string(),
+    email: z.string(),
+    name: z.string(),
+    
+});
+
 export const createDocumentSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255),
     content: z.string().min(1, 'Content is required.'),
