@@ -49,19 +49,18 @@ function CreateNewDocForm() {
 
   if (status === 'authenticated') {
     return (
-      <div>
-        <h1 className='dark:text-white'>Welcome, {session.user?.name}!</h1>
+      <>
         <form onSubmit={handleFormSubmit}>
-          <label className='dark:text-white'>
+          <label className='welcome-title dark:text-white'>
             Title: 
             <input type="text" className='text-black' value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
           <br />
             <ReactQuill theme="snow" className=' flex flex-col items-center mt-4' value={content} onChange={setContent} />
           <br />
-          <button className='dark:text-white'>Create Document</button>
+          <button className='create-btn dark:text-white'>Create Document</button>
         </form>
-      </div>
+      </> 
     );
   }
 }

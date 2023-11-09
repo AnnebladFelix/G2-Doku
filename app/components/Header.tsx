@@ -7,7 +7,7 @@ import classnames from "classnames";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
-    const { status } = useSession();
+    const { data: session, status } = useSession();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const currentPath = usePathname();
 
@@ -28,9 +28,15 @@ export default function Header() {
             : [{ label: "Logga in", href: "/auth/signin" }]),
     ];
 
+
     return (
-        <div className="flex gap-4 mt-4 text-xl justify-between p-2 border-neutral-500 border-b-2">
-            <Logo />
+        <div className="header flex gap-4 mt-4 text-xl justify-between p-2 border-neutral-500 border-b-2">
+            <Logo /> 
+            {status === "authenticated" ? (
+                <h1 className='welcome dark:text-white'>Hej, {session.user?.name}!</h1>
+            ) : (
+                <h1 className='welcome dark:text-white'>Välkommen till G2 dokument!</h1>
+            )}
             <div className="flex gap-4">
                 <ul className="flex space-x-5">
                     {links.map((link) => (
