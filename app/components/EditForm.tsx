@@ -2,20 +2,20 @@
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { editDocumentSchema } from "@/app/validationSchema"
+import { editDocumentSchema } from "@/app/validationSchema";
 import { z } from "zod";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
-
-type Document = z.infer<typeof editDocumentSchema>
+type Document = z.infer<typeof editDocumentSchema>;
 
 function EditForm() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const [editDocument, setEditDocument] = useState<Document | null>(null)
-  const [editTitle, setEditTitle] = useState('');
+  const [editDocument, setEditDocument] = useState<Document | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editContent, setEditContent] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -25,8 +25,9 @@ function EditForm() {
         try {
           const response = await axios.get(`/api/docs/${id}`);
           setEditDocument(response.data);
+          setEditTitle(response.data.title);
+          setEditContent(response.data.content);
           setLoading(false);
-          console.log(response.data);
         } catch (error) {
           setLoading(false);
           setError("Error fetching issue. Please try again later.");
@@ -39,15 +40,58 @@ function EditForm() {
     fetchDocument();
   }, [id]);
 
-  const handleOnChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // onChange={setEditDocument}
-  }
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    setEditTitle(newTitle);
+  };
+
+  const handleContentChange = (value: string) => {
+    setEditContent(value);
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!editTitle || !editContent) {
+      console.error("Edit title or content is missing.");
+      return;
+    }
+
+    try {
+      const updatedAt = new Date().toLocaleString(); // Anpassa detta beroende på hur du vill hantera tidsstämplar
+      await axios.put(`/api/docs/${id}`, {
+        title: editTitle,
+        content: editContent,
+        updatedAt,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      window.location.href = "/documents";
+    } catch (error) {
+      console.error('Error updating document:', error);
+    }
+  };
 
   return (
-    <div key={editDocument?.title} >
-      <form>
-        <input value={editDocument?.title}/>
-        <ReactQuill theme="snow" className=' flex flex-col items-center mt-4' value={editDocument?.content}  />
+    <div key={editDocument?.title}>
+      <form onSubmit={handleEditSubmit}>
+        <label>
+          Title:
+          <input value={editTitle} onChange={handleTitleChange} />
+        </label>
+        <br />
+        <ReactQuill
+          theme="snow"
+          className="flex flex-col items-center mt-4"
+          value={editContent || ""}
+          onChange={handleContentChange}
+        />
+        <br />
+        <button className="dark:text-white" type="submit">
+          Save Changes
+        </button>
       </form>
     </div>
   );
