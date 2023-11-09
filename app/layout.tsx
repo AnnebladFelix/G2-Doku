@@ -18,12 +18,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className='bg-background text-text '>
       <body className={inter.className}>
-        <Provider>
-          <Header/>
-          {children}
-        </Provider>
+          <Provider>
+            <Header/>
+            {children}
+          </Provider>
       </body>
     </html>
   )

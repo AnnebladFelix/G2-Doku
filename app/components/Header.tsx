@@ -30,12 +30,12 @@ export default function Header() {
 
 
     return (
-        <div className="header flex gap-4 mt-4 text-xl justify-between p-2 border-neutral-500 border-b-2">
+        <div className="header flex gap-4 mt-4 text-xl justify-between p-2 border-stone-500 border-b-2">
             <Logo /> 
             {status === "authenticated" ? (
-                <h1 className='welcome dark:text-white'>Hej, {session.user?.name}!</h1>
+                <h1 className='welcome'>Hej, {session.user?.name}!</h1>
             ) : (
-                <h1 className='welcome dark:text-white'>Välkommen till G2 dokument!</h1>
+                <h1 className='welcome'>Välkommen till G2 dokument!</h1>
             )}
             <div className="flex gap-4">
                 <ul className="flex space-x-5">
@@ -43,9 +43,9 @@ export default function Header() {
                         <Link
                             key={link.href}
                             className={classnames({
-                                "text-zinc-500": link.href === currentPath,
-                                "text-zinc-700": link.href !== currentPath,
-                                "hover:text-zinc-800 transition-colors": true,
+                                "text-stone-500": link.href === currentPath,
+                                "text-stone-700": link.href !== currentPath,
+                                "hover:text-stone-800 transition-colors": true,
                             })}
                             href={link.href}
                         >
