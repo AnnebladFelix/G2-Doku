@@ -6,7 +6,7 @@ import z from "zod";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
-import { Button, Card, Flex } from '@radix-ui/themes';
+import { Button, Card, Flex, Table } from '@radix-ui/themes';
 
 type Document = z.infer<typeof getDocumentSchema>
 
@@ -29,7 +29,7 @@ const GetDocumentPage = () =>{
   },[])
 
   return (
-    <div>
+    /*<div>
       <div className='my-3'><Button><Link href='/'> Back </Link></Button></div>
       <div className='flex flex-wrap justify-items-center gap-4'>
         {documents.map((document) => (
@@ -46,7 +46,31 @@ const GetDocumentPage = () =>{
         ))}
 
       </div>
-    </div>
+    </div>*/
+    <Table.Root>
+    <Table.Header>
+      <Table.Row>
+        <Table.ColumnHeaderCell>Titel</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Författare</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Skapad</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Ändrad</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Favorit</Table.ColumnHeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      {documents.map((document) => (
+        <Table.Row key={document.id}>
+          <Table.Cell><button /*onClick={handleButtonClick}*/>{document.title}</button></Table.Cell>
+          <Table.Cell>{document.author}</Table.Cell>
+          <Table.Cell>{document.createdAt}</Table.Cell>
+          <Table.Cell>{document.updatedAt}</Table.Cell>
+          <Table.Cell>{document.author}</Table.Cell>
+        </Table.Row>
+      ))}
+    </Table.Body>
+
+  </Table.Root>
+
   )
 
 }
