@@ -5,16 +5,10 @@ import { getDocumentSchema } from "../validationSchema"
 import z from "zod";
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import Link from 'next/link';
-import { Button, Card, Flex, Table } from '@radix-ui/themes';
+import { Table } from '@radix-ui/themes';
 
 type Document = z.infer<typeof getDocumentSchema>
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
@@ -33,18 +27,12 @@ const GetDocumentPage = () =>{
   const [error, setError] = useState('')
   const router = useRouter();
   
-  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/docs');
         setDocuments(response.data);
-        const authorIds = response.data.map((doc: Document) => doc.authorId);
-        const usersPromises = authorIds.map((authorId) => axios.get(`/api/user/${authorId.name}`));
-        const usersResponse = await Promise.all(usersPromises);
-        setUsers(usersResponse.map((res) => res.data));
-        
       } catch (error) {
         setError('Error fetching documents or user data');
       }
