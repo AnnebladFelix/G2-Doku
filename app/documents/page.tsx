@@ -7,9 +7,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
 import { Button, Card, Flex, Table } from '@radix-ui/themes';
-import router from 'next/router';
 
-type Document = z.infer<typeof getDocumentSchema>;
+type Document = z.infer<typeof getDocumentSchema>
 
 type User = {
   id: number;
@@ -19,70 +18,75 @@ type User = {
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
-  return date.toLocaleString('sv-SE', {
+  const formattedDate = date.toLocaleString('sv-SE', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-  }).replace(',', ''); // Remove the comma in the date string
+  });
+  return formattedDate.replace(',', '');
 };
 
-const GetDocumentPage = () => {
-  const [documents, setDocuments] = useState<Document[]>([]);
+const GetDocumentPage = () =>{
+  const [documents, setDocuments] = useState<Document[]>([])
+  const [error, setError] = useState('')
+  const router = useRouter();
+  
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/docs');
         setDocuments(response.data);
-
         const authorIds = response.data.map((doc: Document) => doc.authorId);
-
-        const usersPromises = authorIds.map((authorId: string) => axios.get(`/api/user`));
+        const usersPromises = authorIds.map((authorId) => axios.get(`/api/user/${authorId.name}`));
         const usersResponse = await Promise.all(usersPromises);
-        const users = usersResponse.map((res) => res.data);
+        setUsers(usersResponse.map((res) => res.data));
+        
       } catch (error) {
-        console.error('Error fetching documents or user data', error);
+        setError('Error fetching documents or user data');
       }
     };
-
     fetchData();
-  }, []);
+  },[]);
 
-  const handleEdit = (document: Document) => {
+  const handleEdit = (document: Document) =>{
     router.push(`/documents/editDoc?id=${document.id}`);
   };
-
   const getAuthorName = (authorId: string) => {
     const user = documents.find((doc) => doc.author.id === authorId);
     return user?.author.name || 'Unknown Author';
   };
+  
 
   return (
-    <Table.Root className='text-text ' >
-      <Table.Header>
-        <Table.Row>
-          <Table.ColumnHeaderCell>Titel</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Författare</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Skapad</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Ändrad</Table.ColumnHeaderCell>
+    <Table.Root>
+    <Table.Header>
+      <Table.Row>
+        <Table.ColumnHeaderCell>Titel</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Författare</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Skapad</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Ändrad</Table.ColumnHeaderCell>
+        <Table.ColumnHeaderCell>Favorit</Table.ColumnHeaderCell>
+      </Table.Row>
+    </Table.Header>
+    <Table.Body>
+      {documents.map((document) => (
+        <Table.Row key={document.id}>
+          <Table.Cell><button onClick={() => handleEdit(document)}>{document.title}</button></Table.Cell>
+          <Table.Cell>{getAuthorName(document.authorId)}</Table.Cell>
+          <Table.Cell>{formatDate(document.createdAt)}</Table.Cell>
+          <Table.Cell>{formatDate(document.updatedAt)}</Table.Cell>
+          
         </Table.Row>
-      </Table.Header>
-      <Table.Body>
-        {documents.map((document) => (
-          <Table.Row className='text-text ' key={document.id}>
-            <Table.Cell>
-              <button onClick={() => handleEdit(document)}>{document.title}</button>
-            </Table.Cell>
-            <Table.Cell>{getAuthorName(document.authorId)}</Table.Cell>
-            <Table.Cell>{formatDate(document.createdAt)}</Table.Cell>
-            <Table.Cell>{formatDate(document.updatedAt)}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table.Root>
-  );
-};
+      ))}
+    </Table.Body>
 
+  </Table.Root>
+
+  )
+
+}
 export default GetDocumentPage;
