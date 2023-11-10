@@ -25,9 +25,13 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
     try {
-        const documents = await prisma.document.findMany();
-        return NextResponse.json(documents, { status: 200 });
+        const documents = await prisma.document.findMany({
+            include: {
+                author: true,
+            },
+        });
 
+        return NextResponse.json(documents, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Error fetching document" }, { status: 500 });
     }
