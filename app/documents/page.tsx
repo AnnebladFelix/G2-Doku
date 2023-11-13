@@ -40,12 +40,12 @@ const GetDocumentPage = () => {
         fetchData();
     }, []);
 
-    const handleEdit = (document: Document) => {
-        router.push(`/documents/editDoc?id=${document.id}`);
+    const handleClick = (document: Document) => {
+        router.push(`/documents/singleDoc?id=${document.id}`);
     };
     const getAuthorName = (authorId: string) => {
         const user = documents.find((doc) => doc.author.id === authorId);
-        return user?.author.name || "Unknown Author";
+        return user?.author.name || "Okänd användre";
     };
 
     if (status === "authenticated") {
@@ -66,7 +66,7 @@ const GetDocumentPage = () => {
                     {documents.map((document) => (
                         <Table.Row key={document.id}>
                             <Table.Cell>
-                                <button onClick={() => handleEdit(document)}>
+                                <button onClick={() => handleClick(document)}>
                                     {document.title}
                                 </button>
                             </Table.Cell>
