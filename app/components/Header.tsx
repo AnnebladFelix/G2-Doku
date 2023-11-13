@@ -18,10 +18,10 @@ export default function Header() {
     }, [status]);
 
     const links = [
-        { label: "Home", href: "/" },
+        { label: "Hem", href: "/" },
         ...(isLoggedIn
             ? [
-                  { label: "Documents", href: "/documents" },
+                  { label: "Dokument", href: "/documents" },
                   { label: "Skapa Dokument", href: "/documents/newDoc" },
                   { label: "Logga ut", href: "/auth/signout" },
               ]
