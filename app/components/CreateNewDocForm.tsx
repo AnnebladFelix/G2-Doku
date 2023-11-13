@@ -44,7 +44,7 @@ function CreateNewDocForm() {
   };
 
   if (!session) {
-    return <div>Please sign in to access this page.</div>;
+    return <div>Du måste logga in för att skapa ett dokument.</div>;
   }
 
   if (status === 'authenticated') {
