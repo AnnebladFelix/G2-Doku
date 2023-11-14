@@ -59,7 +59,7 @@ function CreateNewDocForm() {
             <>
                 <form onSubmit={handleFormSubmit}>
                     <label className="welcome-title">
-                        Title:
+                        Rubrik:
                         <input
                             type="text"
                             value={title}
@@ -75,7 +75,7 @@ function CreateNewDocForm() {
                     />
                     <br />
                     <label>
-                        Private:
+                        Privat:
                         <input
                             type="checkbox"
                             checked={isPrivate}
