@@ -18,6 +18,7 @@ function EditForm() {
   const [editContent, setEditContent] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   useEffect(() => {
     const fetchDocument = async () => {
@@ -27,6 +28,7 @@ function EditForm() {
           setEditDocument(response.data);
           setEditTitle(response.data.title);
           setEditContent(response.data.content);
+          setIsPrivate(response.data.isPrivate);
           setLoading(false);
         } catch (error) {
           setLoading(false);
@@ -59,18 +61,23 @@ function EditForm() {
 
     try {
       const updatedAt = new Date().toLocaleString(); // Anpassa detta beroende på hur du vill hantera tidsstämplar
-      await axios.put(`/api/docs/${id}`, {
-        title: editTitle,
-        content: editContent,
-        updatedAt,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
+      await axios.put(
+        `/api/docs/${id}`,
+        {
+          title: editTitle,
+          content: editContent,
+          updatedAt,
+          isPrivate,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       window.location.href = "/documents";
     } catch (error) {
-      console.error('Error updating document:', error);
+      console.error("Error updating document:", error);
     }
   };
 
@@ -88,6 +95,15 @@ function EditForm() {
           value={editContent || ""}
           onChange={handleContentChange}
         />
+        <br />
+        <label>
+          Privat:
+          <input
+            type="checkbox"
+            checked={isPrivate}
+            onChange={() => setIsPrivate(!isPrivate)}
+          />
+        </label>
         <br />
         <button className="dark:text-white" type="submit">
           Save Changes

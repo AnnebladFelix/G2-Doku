@@ -20,7 +20,7 @@ export const getUserSchema = z.object({
     id: z.string(),
     email: z.string(),
     name: z.string(),
-    
+
 });
 
 export const createDocumentSchema = z.object({
@@ -28,10 +28,11 @@ export const createDocumentSchema = z.object({
     content: z.string().min(1, 'Content is required.'),
     author: z.string(),
     isPrivate: z.boolean(),
-})
+  })
 
-export const editDocumentSchema = z.object({
+  export const editDocumentSchema = z.object({
     title: z.string().min(1, 'Title is required.').max(255),
     content: z.string().min(1, 'Content is required.'),
     updatedAt: z.string(),
-});
+    isPrivate: z.boolean(),
+  });
