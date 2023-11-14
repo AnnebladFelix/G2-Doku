@@ -18,10 +18,10 @@ export default function Header() {
     }, [status]);
 
     const links = [
-        { label: "Home", href: "/" },
+        { label: "Hem", href: "/" },
         ...(isLoggedIn
             ? [
-                  { label: "Documents", href: "/documents" },
+                  { label: "Dokument", href: "/documents" },
                   { label: "Skapa Dokument", href: "/documents/newDoc" },
                   { label: "Logga ut", href: "/auth/signout" },
               ]
@@ -43,8 +43,8 @@ export default function Header() {
                         <Link
                             key={link.href}
                             className={classnames({
-                                "text-stone-500": link.href === currentPath,
-                                "text-stone-700": link.href !== currentPath,
+                                "accent-accent": link.href === currentPath,
+                                "text-stone-500": link.href !== currentPath,
                                 "hover:text-stone-800 transition-colors": true,
                             })}
                             href={link.href}
