@@ -14,7 +14,6 @@ export const getDocumentSchema = z.object({
     updatedAt: z.string(),
     authorId: z.string(),
     isPrivate: z.boolean(),
-    isFlagged: z.boolean(),
   });
 
 export const getUserSchema = z.object({

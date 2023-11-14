@@ -58,7 +58,6 @@ const MyDocPage = () => {
     const handleFlagClick = (document: Document) => {
         console.log("Flaggad", document.id);
 
-        setIsFlagged(!document.isFlagged);
     };
 
     const getAllDoc = () => {
@@ -129,7 +128,7 @@ const MyDocPage = () => {
                                                 handleFlagClick(document)
                                             }
                                         >
-                                            {document.isFlagged ? (
+                                            {isFlagged ? (
                                                 <StarIcon
                                                     style={{
                                                         width: "20px",

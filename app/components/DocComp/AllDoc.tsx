@@ -50,8 +50,6 @@ const GetAllDocsPage = () => {
 
     const handleFlagClick = (document: Document) => {
         console.log("Flaggad", document.id);
-
-        setIsFlagged(!document.isFlagged);
     };
 
     const getAuthorName = (authorId: string) => {
@@ -127,7 +125,7 @@ const GetAllDocsPage = () => {
                                                 handleFlagClick(document)
                                             }
                                         >
-                                            {document.isFlagged ? (
+                                            {isFlagged ? (
                                                 <StarIcon
                                                     style={{
                                                         width: "20px",
