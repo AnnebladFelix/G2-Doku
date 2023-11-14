@@ -43,8 +43,8 @@ const GetAllDocsPage = () => {
     }, [status]);
 
     const handleClick = (document: Document) => {
-        router.push(`/documents/editDoc?id=${document.id}`);
-    };
+      router.push(`/documents/singleDoc?id=${document.id}`);
+  };
 
     const getAuthorName = (authorId: string) => {
         const user = documents.find((doc) => doc.author?.id === authorId);
