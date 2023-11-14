@@ -1,4 +1,4 @@
-import CreateNewDocForm from "@/app/components/CreateNewDocForm";
+import CreateNewDocForm from "@/app/components/DocComp/CreateNewDocForm";
 
 function NewDocPage() {
     return (
