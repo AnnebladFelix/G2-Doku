@@ -1,4 +1,4 @@
-import EditForm from "@/app/components/EditForm"
+import EditForm from "@/app/components/DocComp/EditForm"
 
 
 function page() {
