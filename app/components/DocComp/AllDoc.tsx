@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getDocumentSchema } from "../validationSchema";
+import { getDocumentSchema } from "@/app/validationSchema";
 import z from "zod";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -22,7 +22,7 @@ const formatDate = (dateString: string): string => {
     return formattedDate.replace(",", "");
 };
 
-const GetDocumentPage = () => {
+const GetAllDocsPage = () => {
     const [documents, setDocuments] = useState<Document[]>([]);
     const [error, setError] = useState("");
     const { data: session, status } = useSession();
@@ -109,4 +109,4 @@ const GetDocumentPage = () => {
       )
     }
 };
-export default GetDocumentPage;
+export default GetAllDocsPage;
