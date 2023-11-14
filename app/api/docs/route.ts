@@ -1,24 +1,41 @@
+// api/docs/index.ts
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/app/lib/prisma";
-import { createDocumentSchema } from '../../validationSchema'
+import { Prisma, PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
     try {
-        const body = await request.json();
-        console.log("Received Data:", body);
-        const validation = createDocumentSchema.safeParse(body);
-        if (!validation.success)
-            return NextResponse.json(validation.error.format(), { status: 400 });
-        const newDocument = await prisma.document.create({
-            data: { title: body.title, 
-                    content: body.content, 
-                    author: { connect: { id: body.author } } }
+        const { documentId, userId } = await request.json();
+
+        const document = await prisma.document.findUnique({
+            where: { id: documentId },
         });
 
-        console.log("Inserted Document:", newDocument);
-        return NextResponse.json(newDocument, { status: 200 });
+        if (!document) {
+            return NextResponse.json({ error: "Document not found" }, { status: 404 });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: "User not found" }, { status: 404 });
+        }
+
+        const data: any = {
+            document: { connect: { id: documentId } },
+            user: { connect: { id: userId } },
+            flagged: "FLAGGED",
+        };
+
+        await prisma.flag.create({
+            data,
+        });
+
+        return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
-        console.error("Error creating Document:", error);
+        console.error("Error flagging document:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
@@ -28,14 +45,21 @@ export async function GET(request: NextRequest) {
         const documents = await prisma.document.findMany({
             include: {
                 author: true,
+                flags: {
+                    include: {
+                        document: true,
+                        user: true,
+                    },
+                },
             },
-        });
+        } as Prisma.DocumentFindManyArgs);
 
         return NextResponse.json(documents, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Error fetching document" }, { status: 500 });
     }
 }
+
 
 //! ------------ remove comments if documents need to be deleted -------------------
 

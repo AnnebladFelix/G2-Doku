@@ -17,11 +17,7 @@ model User {
   name         String?
   role         Role       @default(USER)
   documents    Document[]
-}
-
-enum Role {
-  USER
-  ADMIN
+  flags        Flag[]
 }
 
 model Document {
@@ -33,8 +29,8 @@ model Document {
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  flags     Flag[]   @relation("DocumentToFlag")
   deleted   Boolean  @default(false)
+  flags     Flag[]
 
   @@index([authorId])
 }
@@ -44,8 +40,8 @@ model Flag {
   documentId Int
   userId     String
   flagged    Flagged  @default(UNFLAGGED)
-  document   Document @relation("DocumentToFlag", fields: [documentId], references: [id])
-
+  document   Document @relation(fields: [documentId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
   @@index([documentId])
   @@index([userId])
 }
@@ -53,4 +49,9 @@ model Flag {
 enum Flagged {
   UNFLAGGED
   FLAGGED
+}
+
+enum Role {
+  USER
+  ADMIN
 }

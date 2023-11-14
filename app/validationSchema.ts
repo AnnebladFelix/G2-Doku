@@ -13,6 +13,11 @@ export const getDocumentSchema = z.object({
     createdAt: z.string(),
     updatedAt: z.string(),
     authorId: z.string(),
+    flags: z.array(
+      z.object({
+          flagged: z.enum(['UNFLAGGED', 'FLAGGED']),
+      })
+    ),
   });
 
 export const getUserSchema = z.object({

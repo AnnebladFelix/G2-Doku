@@ -29,6 +29,27 @@ const MyDocPage = () => {
     const sessionAuthor = session?.user?.sub
     const [error, setError] = useState("");
     const [author, setAuthor] = useState("");
+    const handleFlag = async (document: Document) => {
+      console.log('click');
+      try {
+          await axios.post("/api/docs/", {
+              documentId: document.id,
+              userId: sessionAuthor,
+          });
+
+          // Update the UI to reflect the flagged status of the document
+          setDocuments((prevDocuments) => {
+              return prevDocuments.map((doc) => {
+                  if (doc.id === document.id) {
+                      return { ...doc, Flags: [{ flagged: 'FLAGGED' }] };
+                  }
+                  return doc;
+              });
+          });
+      } catch (error) {
+          setError("Error flagging document");
+      }
+  };
 
     const router = useRouter();
 
@@ -105,6 +126,15 @@ const MyDocPage = () => {
                                 <span style={{ padding: '0.25rem' }}>
                                   {formatDate(document.updatedAt)}
                                 </span>
+                              </Table.Cell>
+                              <Table.Cell>
+                                  <span style={{ padding: '0.25rem' }}>
+                                      {document.flags && document.flags.length > 0 && document.flags[0].flagged === "FLAGGED" ? (
+                                          <button onClick={() => handleFlag(document)}>Unflag</button>
+                                      ) : (
+                                          <button onClick={() => handleFlag(document)}>Flag</button>
+                                      )}
+                                  </span>
                               </Table.Cell>
                           </Table.Row>
                       ))}
