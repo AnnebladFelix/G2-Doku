@@ -49,8 +49,8 @@ const MyDocPage = () => {
     }, [status]);
 
     const handleClick = (document: Document) => {
-        router.push(`/documents/editDoc?id=${document.id}`);
-    };
+      router.push(`/documents/singleDoc?id=${document.id}`);
+  };
 
     const getAllDoc = () => {
         router.push(`/documents`);
