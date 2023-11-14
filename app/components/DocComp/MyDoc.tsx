@@ -46,7 +46,7 @@ const MyDocPage = () => {
             }
         };
         fetchData();
-    }, [status]);
+    }, [sessionAuthor, status]);
 
     const handleClick = (document: Document) => {
       router.push(`/documents/singleDoc?id=${document.id}`);

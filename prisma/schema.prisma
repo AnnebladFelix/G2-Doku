@@ -28,7 +28,7 @@ model Document {
   id        Int      @id @default(autoincrement())
   title     String   @db.VarChar(255)
   content   String   @db.Text
-  private   Boolean  @default(false)
+  isPrivate   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id])
