@@ -42,7 +42,7 @@ const GetAllDocsPage = () => {
         fetchData();
     }, [status]);
 
-    const handleEdit = (document: Document) => {
+    const handleClick = (document: Document) => {
         router.push(`/documents/editDoc?id=${document.id}`);
     };
 
@@ -50,6 +50,10 @@ const GetAllDocsPage = () => {
         const user = documents.find((doc) => doc.author?.id === authorId);
         return user?.author.name || "Unknown Author";
     };
+
+    const getMyDoc = () => {
+        router.push(`/documents/myDoc`);
+    }
 
     if (status === "authenticated") {
         return (
@@ -60,7 +64,7 @@ const GetAllDocsPage = () => {
                 <div>
                       <button className=" mb-2"  >Alla dokument</button>
                       <span className="mx-2 ">/</span>
-                      <button className=" mb-2 ">Mina dokument</button>
+                      <button className=" mb-2 " onClick={getMyDoc} >Mina dokument</button>
 
                 </div>
                 <Table.Root>
@@ -77,7 +81,7 @@ const GetAllDocsPage = () => {
                       {documents.map((document) => (
                           <Table.Row  key={document.id}>
                               <Table.Cell className="max-w-[200px] px-4">
-                                  <button onClick={() => handleEdit(document)}>
+                                  <button onClick={() => handleClick(document)}>
                                       {document.title}
                                   </button>
                               </Table.Cell>
