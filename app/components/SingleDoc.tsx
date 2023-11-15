@@ -6,7 +6,7 @@ import { getDocumentSchema } from '@/app/validationSchema';
 import { z } from "zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { Box } from "@radix-ui/themes";
+import { Box, Card, Text } from "@radix-ui/themes";
 
 type Document = z.infer<typeof getDocumentSchema>;
 
@@ -63,27 +63,32 @@ type Document = z.infer<typeof getDocumentSchema>;
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-        <Box height="9">
-
-          <div className="flex flex-col items-center h-full flex-grow rounded-lg justify-center bg-white">
+        <Card size="3" style={{ width: 500, height: 500 }}>
+          <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
             {singleDocument &&
-              <div className="h-full">
-                <h1 className="text-3xl m-2">Titel: {singleDocument.title}</h1>
-                <p dangerouslySetInnerHTML={{__html: singleDocument.content}}></p>
-                {<p>Skapad av: {singleDocument.author.name}</p>}
-                <p>Skapad:{formatDate(singleDocument.createdAt)}</p>
-                <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
-                {isAuthor && (
-                  <>
-                    <button className=" mb-2" onClick={() => handleEdit()}>Redigera</button>
-                    <span className="mx-2 "></span>
-                    <button className=" mb-2" onClick={() => handleDelete()}>Ta bort</button>
-                  </>
-                )}
-            </div>
+              <div className="mt-4 w-full flex flex-col items-center">
+                <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid">Rubrik: {singleDocument.title}</div>
+                <div className="flex flex-col items-center mt-4 w-full" dangerouslySetInnerHTML={{__html: singleDocument.content}}></div>
+              </div>
             }
           </div>
-        </Box>
+        </Card>
+        {isAuthor && (
+          <div className="flex mt-4">
+            <button className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]" onClick={() => handleEdit()}>Redigera</button>
+            <span className="mx-2 "></span>
+            <button className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#bb3e3e] hover:bg-[#e97f7f]" onClick={() => handleDelete()}>Ta bort</button>
+            
+          </div>
+        )}
+        {singleDocument &&
+              <div className="mt-4">
+                {<p>Skapad av: {singleDocument.author.name}</p>}
+                <p>Skapad: {formatDate(singleDocument.createdAt)}</p>
+                <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
+                
+            </div>
+            }
     </div>
   )
 };

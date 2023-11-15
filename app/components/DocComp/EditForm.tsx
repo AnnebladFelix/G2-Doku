@@ -82,10 +82,10 @@ function EditForm() {
   };
 
   return (
-    <div key={editDocument?.title}>
+    <div className="flex flex-col items-center justify-center" key={editDocument?.title}>
       <form onSubmit={handleEditSubmit}>
         <label>
-          Title:
+          Rubrik:
           <input value={editTitle} onChange={handleTitleChange} />
         </label>
         <br />
@@ -95,19 +95,22 @@ function EditForm() {
           value={editContent || ""}
           onChange={handleContentChange}
         />
-        <br />
-        <label>
-          Privat:
-          <input
-            type="checkbox"
-            checked={isPrivate}
-            onChange={() => setIsPrivate(!isPrivate)}
-          />
-        </label>
-        <br />
-        <button className="dark:text-white" type="submit">
-          Save Changes
-        </button>
+        
+        <div className="flex space-x-4 justify-center mb-4">
+          <div>
+            Privat: 
+            <input
+              type="checkbox"
+              checked={isPrivate}
+              onChange={() => setIsPrivate(!isPrivate)}
+            />
+          </div>
+          <br />
+          <button className="flex justify-center w-40 animate-pulse rounded-md shadow-md mb-2 hover:bg-[#5e8170] dark:text-white" type="submit">
+            Save Changes
+          </button>
+
+        </div>
       </form>
     </div>
   );
