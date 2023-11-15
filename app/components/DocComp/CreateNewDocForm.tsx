@@ -54,40 +54,31 @@ function CreateNewDocForm() {
         return <div>Du måste logga in för att skapa ett dokument.</div>;
     }
 
-    if (status === "authenticated") {
-        return (
-            <>
-                <form onSubmit={handleFormSubmit}>
-                    <label className="welcome-title">
-                        Rubrik:
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                        />
-                    </label>
-                    <br />
-                    <ReactQuill
-                        theme="snow"
-                        className=" flex flex-col items-center mt-4"
-                        value={content}
-                        onChange={setContent}
-                    />
-                    <br />
-                    <label>
-                        Privat:
-                        <input
-                            type="checkbox"
-                            checked={isPrivate}
-                            onChange={() => setIsPrivate(!isPrivate)}
-                        />
-                    </label>
-                    <br />
-                    <button className="create-btn">Create Document</button>
-                </form>
-            </>
-        );
-    }
+  if (status === 'authenticated') {
+    return (
+      <>
+        <form className='flex flex-col' onSubmit={handleFormSubmit}>
+          <label className='welcome-title' style={{ textAlign: 'center' }}>
+            Rubrik: 
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          </label>
+          <br />
+            <ReactQuill theme="snow" className=' flex flex-col items-center mt-2' value={content} onChange={setContent} />
+          <br />
+          <label>
+           Privat:
+            <input
+             type="checkbox"
+             checked={isPrivate}
+             onChange={() => setIsPrivate(!isPrivate)}
+             />
+             </label>
+            <br />
+          <button className='create-btn'>Create Document</button>
+        </form>
+      </> 
+    );
+  }
 }
 
 export default CreateNewDocForm;
