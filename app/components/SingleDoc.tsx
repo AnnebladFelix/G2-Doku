@@ -56,7 +56,7 @@ type Document = z.infer<typeof getDocumentSchema>;
   };
 
   const handleDelete = () => {
-    //Inväntar att api blir softdelete
+    
 
   }
 
