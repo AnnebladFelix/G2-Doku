@@ -30,7 +30,7 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
     if (!id) return NextResponse.json({ error: "No id provided" }, { status: 400 });
 
     try {
-        const document = await prisma.document.findFirst({ where: { id: Number(params?.id) } });
+        const document = await prisma.document.findFirst({ where: { id: Number(params?.id) }, include: {author: true} });
         return NextResponse.json(document, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Error fetching document" }, { status: 500 });
@@ -38,17 +38,18 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 }
 
 
-//! Ändra till en softdel istället för hardDel
-// export async function DELETE(req: Request, { params }: { params: { id: number } }) {
-//     const { id } = params;
-//     if (!id) return NextResponse.json({ error: "No id provided" }, { status: 400 });
+//* SOFT DELETE
+export async function DELETE(req: Request, { params }: { params: { id: number } }) {
+    const { id } = params;
+    if (!id) return NextResponse.json({ error: "No id provided" }, { status: 400 });
 
-//     try {
-//         const document = await prisma.document.delete({
-//             where: { id: Number(params?.id)},
-//         });
-//         return NextResponse.json({ document, }, { status: 200 });
-//     } catch (error) {
-//         return NextResponse.json({ error: "Error fetching issue" }, { status: 500 });
-//     }
-// }
+    try {
+        const document = await prisma.document.update({
+            where: { id: Number(params?.id)},
+            data: { deleted: true },
+        });
+        return NextResponse.json({ document }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ error: "Error updating document" }, { status: 500 });
+    }
+}

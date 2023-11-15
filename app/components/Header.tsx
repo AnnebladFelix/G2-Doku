@@ -5,22 +5,40 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import classnames from "classnames";
 import { usePathname } from "next/navigation";
+import axios from "axios";
 
 export default function Header() {
     const { data: session, status } = useSession();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const currentPath = usePathname();
+    const [admin, setAdmin] = useState(false);
 
     useEffect(() => {
-        if (status === "authenticated") {
-            setIsLoggedIn(true);
-        }
-    }, [status]);
+        const fetchUserData = async () => {
+            if (status === "authenticated" && session?.user?.sub) {
+                try {
+                    const response = await axios.get(
+                        `/api/user/${session.user.sub}`
+                    );
+                    const userData = response.data;
+                    setIsLoggedIn(true);
+                    setAdmin(userData.role === "ADMIN");
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            }
+        };
+
+        fetchUserData();
+    }, [status, session]);
 
     const links = [
         { label: "Hem", href: "/" },
         ...(isLoggedIn
             ? [
+                ...(admin
+                    ? [{ label: "Skapa användare", href: "/auth/signup" }]
+                    : []),
                   { label: "Dokument", href: "/documents" },
                   { label: "Skapa Dokument", href: "/documents/newDoc" },
                   { label: "Logga ut", href: "/auth/signout" },
@@ -28,14 +46,13 @@ export default function Header() {
             : [{ label: "Logga in", href: "/auth/signin" }]),
     ];
 
-
     return (
         <div className="header flex gap-4 mt-4 text-xl justify-between p-2 border-stone-500 border-b-2">
-            <Logo /> 
+            <Logo />
             {status === "authenticated" ? (
-                <h1 className='welcome'>Hej, {session.user?.name}!</h1>
+                <h1 className="welcome">Hej, {session.user?.name}!</h1>
             ) : (
-                <h1 className='welcome'>Välkommen till G2 dokument!</h1>
+                <h1 className="welcome">Välkommen till G2 dokument!</h1>
             )}
             <div className="flex gap-4">
                 <ul className="flex space-x-5">

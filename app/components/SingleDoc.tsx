@@ -57,14 +57,11 @@ type Document = z.infer<typeof getDocumentSchema>;
   };
 
   const handleDelete = () => {
-    //Inväntar att api blir softdelete
-
   }
 
   const isAuthor = status === "authenticated" && session?.user?.sub === singleDocument?.authorId;
 
   return (
-    
     <div className="flex flex-col items-center justify-center h-full">
         <Box height="9">
 
@@ -73,7 +70,7 @@ type Document = z.infer<typeof getDocumentSchema>;
               <div className="h-full">
                 <h1 className="text-3xl m-2">Titel: {singleDocument.title}</h1>
                 <p dangerouslySetInnerHTML={{__html: singleDocument.content}}></p>
-                {/* <p>Skapad av: {document.author.name}</p> */}
+                {<p>Skapad av: {document.author.name}</p>}
                 <p>Skapad:{formatDate(singleDocument.createdAt)}</p>
                 <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
                 {isAuthor && (
