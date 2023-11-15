@@ -60,7 +60,7 @@ function EditForm() {
     }
 
     try {
-      const updatedAt = new Date().toLocaleString(); // Anpassa detta beroende på hur du vill hantera tidsstämplar
+      const updatedAt = new Date().toLocaleString();
       await axios.put(
         `/api/docs/${id}`,
         {

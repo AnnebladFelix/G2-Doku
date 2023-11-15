@@ -39,8 +39,10 @@ export async function GET(request: NextRequest) {
             },
             include: {
                 author: true,
+                flags: true,
             },
         });
+        // console.log(documents);
 
         return NextResponse.json(documents, { status: 200 });
     } catch (error) {
