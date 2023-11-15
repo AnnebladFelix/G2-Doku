@@ -3,14 +3,11 @@ import prisma from "@/app/lib/prisma";
 
 export async function GET(req: Request, { params }: { params: { id: string } }) {
     try {
-        // Extrahera användarens ID från begäran, till exempel från query-parametern "id"
         const userId = params.id;
 
         if (!userId) {
             return NextResponse.json({ error: "No user id provided" }, { status: 400 });
         }
-
-        // Hämta användaren och dess dokument från databasen
         const userWithDocuments = await prisma.user.findUnique({
             where: { id: userId },
             include: {

@@ -20,7 +20,6 @@ export const getUserSchema = z.object({
     id: z.string(),
     email: z.string(),
     name: z.string(),
-
 });
 
 export const createDocumentSchema = z.object({
@@ -36,3 +35,8 @@ export const createDocumentSchema = z.object({
     updatedAt: z.string(),
     isPrivate: z.boolean(),
   });
+
+export const createFlagSchema = z.object({
+  documentId: z.number(),
+  userId: z.string(),
+})
