@@ -63,6 +63,7 @@ model Comments {
   id        Int      @id @default(autoincrement())
   user  User     @relation(fields: [userId], references: [id])
   userId    String
+  content String
   document  Document @relation(fields: [documentId], references: [id])
   documentId Int     
 
