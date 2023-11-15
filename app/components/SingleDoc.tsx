@@ -6,6 +6,7 @@ import { getDocumentSchema } from '@/app/validationSchema';
 import { z } from "zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { Box } from "@radix-ui/themes";
 
 type Document = z.infer<typeof getDocumentSchema>;
 
@@ -63,22 +64,29 @@ type Document = z.infer<typeof getDocumentSchema>;
   const isAuthor = status === "authenticated" && session?.user?.sub === singleDocument?.authorId;
 
   return (
-    <div>
-{singleDocument &&
-<div>
-      <h1 className="text-3xl">Titel: {singleDocument.title}</h1>
-      <p dangerouslySetInnerHTML={{__html: singleDocument.content}}></p>
-      {/* <p>Skapad av: {document.author.name}</p> */}
-      <p>Skapad:{formatDate(singleDocument.createdAt)}</p>
-      <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
-      {isAuthor && (
-            <>
-              <button onClick={() => handleEdit()}>Redigera</button>
-              <button onClick={() => handleDelete()}>Ta bort</button>
-            </>
-          )}
-      </div>
-      }
+    
+    <div className="flex flex-col items-center justify-center h-full">
+        <Box height="9">
+
+          <div className="flex flex-col items-center h-full flex-grow rounded-lg justify-center bg-white">
+            {singleDocument &&
+              <div className="h-full">
+                <h1 className="text-3xl m-2">Titel: {singleDocument.title}</h1>
+                <p dangerouslySetInnerHTML={{__html: singleDocument.content}}></p>
+                {/* <p>Skapad av: {document.author.name}</p> */}
+                <p>Skapad:{formatDate(singleDocument.createdAt)}</p>
+                <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
+                {isAuthor && (
+                  <>
+                    <button className=" mb-2" onClick={() => handleEdit()}>Redigera</button>
+                    <span className="mx-2 "></span>
+                    <button className=" mb-2" onClick={() => handleDelete()}>Ta bort</button>
+                  </>
+                )}
+            </div>
+            }
+          </div>
+        </Box>
     </div>
   )
 };
