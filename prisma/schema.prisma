@@ -17,6 +17,8 @@ model User {
   name         String?
   role         Role       @default(USER)
   documents    Document[]
+  comments Comments[]
+  flags     Flag[]   
 }
 
 enum Role {
@@ -28,13 +30,14 @@ model Document {
   id        Int      @id @default(autoincrement())
   title     String   @db.VarChar(255)
   content   String   @db.Text
-  private   Boolean  @default(false)
+  isPrivate   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
   flags     Flag[]   @relation("DocumentToFlag")
   deleted   Boolean  @default(false)
+  comments  Comments[]
 
   @@index([authorId])
 }
@@ -42,6 +45,7 @@ model Document {
 model Flag {
   id         Int      @id @default(autoincrement())
   documentId Int
+  user  User @relation(fields: [userId], references: [id])
   userId     String
   flagged    Flagged  @default(UNFLAGGED)
   document   Document @relation("DocumentToFlag", fields: [documentId], references: [id])
@@ -53,4 +57,16 @@ model Flag {
 enum Flagged {
   UNFLAGGED
   FLAGGED
+}
+
+model Comments {
+  id        Int      @id @default(autoincrement())
+  user  User     @relation(fields: [userId], references: [id])
+  userId    String
+  content String
+  document  Document @relation(fields: [documentId], references: [id])
+  documentId Int     
+
+  @@index([documentId])
+  @@index([userId])
 }

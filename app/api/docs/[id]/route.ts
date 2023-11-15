@@ -16,7 +16,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     try {
         const updatedDocument = await prisma.document.update({
             where: { id: Number(id) },
-            data: { title: body.title, content: body.content }
+            data: { title: body.title, content: body.content, isPrivate: body.isPrivate }
         });
 
         return NextResponse.json(updatedDocument, { status: 200 });

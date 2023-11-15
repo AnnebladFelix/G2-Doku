@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getDocumentSchema } from '@/app/validationSchema';
 import { z } from "zod";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 
 type Document = z.infer<typeof getDocumentSchema>;
 
@@ -12,6 +13,7 @@ type Document = z.infer<typeof getDocumentSchema>;
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
+  const { data: session, status } = useSession();
   const [singleDocument, setSingleDocument] = useState<Document | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -58,6 +60,8 @@ type Document = z.infer<typeof getDocumentSchema>;
 
   }
 
+  const isAuthor = status === "authenticated" && session?.user?.sub === singleDocument?.authorId;
+
   return (
     <div>
 {singleDocument &&
@@ -67,8 +71,12 @@ type Document = z.infer<typeof getDocumentSchema>;
       {/* <p>Skapad av: {document.author.name}</p> */}
       <p>Skapad:{formatDate(singleDocument.createdAt)}</p>
       <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
-      <button onClick={() => handleEdit()}>Redigera</button>
-      <button>Ta bort</button>
+      {isAuthor && (
+            <>
+              <button onClick={() => handleEdit()}>Redigera</button>
+              <button onClick={() => handleDelete()}>Ta bort</button>
+            </>
+          )}
       </div>
       }
     </div>
