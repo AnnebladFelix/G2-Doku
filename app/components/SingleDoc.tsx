@@ -56,8 +56,6 @@ type Document = z.infer<typeof getDocumentSchema>;
   };
 
   const handleDelete = () => {
-    
-
   }
 
   const isAuthor = status === "authenticated" && session?.user?.sub === singleDocument?.authorId;
@@ -68,7 +66,7 @@ type Document = z.infer<typeof getDocumentSchema>;
 <div>
       <h1 className="text-3xl">Titel: {singleDocument.title}</h1>
       <p dangerouslySetInnerHTML={{__html: singleDocument.content}}></p>
-      {/* <p>Skapad av: {document.author.name}</p> */}
+      <p>Skapad av: {singleDocument.author.name}</p>
       <p>Skapad:{formatDate(singleDocument.createdAt)}</p>
       <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
       {isAuthor && (
