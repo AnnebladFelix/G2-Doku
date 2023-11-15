@@ -30,7 +30,7 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
     if (!id) return NextResponse.json({ error: "No id provided" }, { status: 400 });
 
     try {
-        const document = await prisma.document.findFirst({ where: { id: Number(params?.id) } });
+        const document = await prisma.document.findFirst({ where: { id: Number(params?.id) }, include: {author: true} });
         return NextResponse.json(document, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Error fetching document" }, { status: 500 });

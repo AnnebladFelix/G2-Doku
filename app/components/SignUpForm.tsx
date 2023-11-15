@@ -10,12 +10,13 @@ const SignUpForm = () => {
     
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
+    const [name,setName] = useState('')
 
     const [message,setMessage] = useState('')
 
     const handleSubmit = async () => {
         setMessage("Signing up...");
-        const message = await signUp(email, password);
+        const message = await signUp(email, password, name);
         setMessage(message);
     };
     
@@ -28,8 +29,9 @@ const SignUpForm = () => {
     
   return (
     <div className='flex flex-col gap-4 bg-gray-400 p-4 text-black'>
-        <input type='text' value={email} onChange={(e) => setEmail(e.target.value)}/>
-        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <input type='name' value={name} placeholder="Namn" onChange={(e) => setName(e.target.value)}/>
+        <input type='text' placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+        <input type='password' placeholder="Lösenord" value={password} onChange={(e) => setPassword(e.target.value)}/>
 
         <button onClick={handleSubmit}>
             Sign up
