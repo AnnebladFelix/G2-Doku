@@ -50,13 +50,13 @@ function CreateNewDocForm() {
   if (status === 'authenticated') {
     return (
       <>
-        <form onSubmit={handleFormSubmit}>
-          <label className='welcome-title'>
+        <form className='flex flex-col' onSubmit={handleFormSubmit}>
+          <label className='welcome-title' style={{ textAlign: 'center' }}>
             Title: 
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
           </label>
           <br />
-            <ReactQuill theme="snow" className=' flex flex-col items-center mt-4' value={content} onChange={setContent} />
+            <ReactQuill theme="snow" className=' flex flex-col items-center mt-2' value={content} onChange={setContent} />
           <br />
           <button className='create-btn'>Create Document</button>
         </form>
