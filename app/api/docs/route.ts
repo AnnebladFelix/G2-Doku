@@ -36,13 +36,13 @@ export async function GET(request: NextRequest) {
         const documents = await prisma.document.findMany({
             where: {
                 isPrivate: false,
+                deleted: false,
             },
             include: {
                 author: true,
                 flags: true,
             },
         });
-        // console.log(documents);
 
         return NextResponse.json(documents, { status: 200 });
     } catch (error) {
