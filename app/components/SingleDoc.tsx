@@ -7,8 +7,10 @@ import { z } from "zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Card, Text } from "@radix-ui/themes";
+import {getCommentsSchema} from "@/app/validationSchema";
 
 type Document = z.infer<typeof getDocumentSchema>;
+type Comment = z.infer<typeof getCommentsSchema>;
 
 function SingleDoc() {
     const searchParams = useSearchParams();
@@ -20,7 +22,7 @@ function SingleDoc() {
     const [error, setError] = useState("");
     const router = useRouter();
     const [commentContent, setCommentContent] = useState("");
-    const [comments, setComments] = useState<string[]>([]);
+    const [comments, setComments] = useState<Comment[]>([]);
 
     useEffect(() => {
         const fetchDocument = async () => {
@@ -195,16 +197,36 @@ function SingleDoc() {
                             </div>
                         )}
                         {singleDocument && (
-                            <div className="mt-4">
-                                {<p>Skapad av: {singleDocument.author.name}</p>}
-                                <p>
-                                    Skapad:{" "}
-                                    {formatDate(singleDocument.createdAt)}
-                                </p>
-                                <p>
-                                    Ändrad:{" "}
-                                    {formatDate(singleDocument.updatedAt)}
-                                </p>
+                            <div className="flex">
+                                <div className="mt-4">
+                                    {
+                                        <p>
+                                            Skapad av:{" "}
+                                            {singleDocument.author.name}
+                                        </p>
+                                    }
+                                    <p>
+                                        Skapad:{" "}
+                                        {formatDate(singleDocument.createdAt)}
+                                    </p>
+                                    <p>
+                                        Ändrad:{" "}
+                                        {formatDate(singleDocument.updatedAt)}
+                                    </p>
+                                </div>
+                                    <div className="flex flex-col m-2">
+                                        <textarea
+                                            value={commentContent}
+                                            onChange={handleCommentChange}
+                                            placeholder="Lämna en kommentar här..."
+                                        />
+                                        <button
+                                            className=" w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                            onClick={handleComment}
+                                        >
+                                            Kommentera
+                                        </button>
+                                    </div>
                             </div>
                         )}
                         {showDeleteModal && (
