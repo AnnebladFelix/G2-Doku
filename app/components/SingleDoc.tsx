@@ -67,8 +67,8 @@ type Document = z.infer<typeof getDocumentSchema>;
           <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
             {singleDocument &&
               <div className="mt-4 w-full flex flex-col items-center">
-                <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid">Rubrik: {singleDocument.title}</div>
-                <div className="flex flex-col items-center mt-4 w-full" dangerouslySetInnerHTML={{__html: singleDocument.content}}></div>
+                <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid text-black">Rubrik: {singleDocument.title}</div>
+                <div className="flex flex-col items-center mt-4 w-full text-black" dangerouslySetInnerHTML={{__html: singleDocument.content}}></div>
               </div>
             }
           </div>
