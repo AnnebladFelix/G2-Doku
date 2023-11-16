@@ -7,6 +7,7 @@ import { z } from "zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Box, Card, Text } from "@radix-ui/themes";
+import { Session } from "inspector";
 
 type Document = z.infer<typeof getDocumentSchema>;
 
@@ -19,6 +20,7 @@ function SingleDoc() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const router = useRouter();
+    const [commentContent, setCommentContent] = useState("");
 
     useEffect(() => {
         const fetchDocument = async () => {
@@ -85,6 +87,35 @@ function SingleDoc() {
         setShowDeleteModal(false);
     };
 
+    const handleCommentChange = (
+        event: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+        setCommentContent(event.target.value);
+    };
+
+    const handleComment = async () => {
+        try {
+            console.log(session?.user?.sub);
+            console.log(singleDocument?.id);
+            console.log(commentContent);
+            const response = await axios.post("/api/comments", {
+                userId: session?.user?.sub,
+                documentId: singleDocument?.id,
+                content: commentContent,
+            });
+            console.log(response)
+
+            if (response.status === 200) {
+                console.log("Comment created successfully");
+                setCommentContent("");
+            } else {
+                console.error("Error creating comment:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error creating comment:", error);
+        }
+    };
+
     const isAuthor =
         status === "authenticated" &&
         session?.user?.sub === singleDocument?.authorId;
@@ -127,15 +158,42 @@ function SingleDoc() {
                     </div>
                 )}
                 {singleDocument && (
-                    <div className="mt-4">
-                        {<p>Skapad av: {singleDocument.author.name}</p>}
-                        <p>Skapad: {formatDate(singleDocument.createdAt)}</p>
-                        <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
+                    <div className="flex  gap-4 p-4">
+                        <div className="">
+                            {<p>Skapad av: {singleDocument.author.name}</p>}
+                            <p>
+                                Skapad: {formatDate(singleDocument.createdAt)}
+                            </p>
+                            <p>
+                                Ändrad: {formatDate(singleDocument.updatedAt)}
+                            </p>
+                        </div>
+                        <div className="flex flex-col m-2">
+                            <textarea
+                                value={commentContent}
+                                onChange={handleCommentChange}
+                                placeholder="Lämna en kommentar här..."
+                            />
+                            <button
+                                className=" w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                onClick={handleComment}
+                            >
+                                Kommentera
+                            </button>
+                        </div>
                     </div>
                 )}
                 {showDeleteModal && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <Card size="2" style={{ width: 300, padding: 20, borderRadius: 10, backgroundColor: "whitesmoke"}}>
+                        <Card
+                            size="2"
+                            style={{
+                                width: 300,
+                                padding: 20,
+                                borderRadius: 10,
+                                backgroundColor: "whitesmoke",
+                            }}
+                        >
                             <Text>
                                 Är du säker på att du vill ta bort detta
                                 dokument?
