@@ -6,7 +6,7 @@ import { getDocumentSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { Box, Card, Text } from "@radix-ui/themes";
+import { Card, Text } from "@radix-ui/themes";
 
 type Document = z.infer<typeof getDocumentSchema>;
 
@@ -91,8 +91,8 @@ function SingleDoc() {
 
     if (status === "authenticated") {
         return (
-            <div className="flex flex-col items-center justify-center h-full">
-                <Card size="3" style={{ width: 500, height: 500 }}>
+            <div className="flex flex-col items-center justify-center h-full ">
+                <div className=" ql-editor2 overflow-y-scroll bg-white">
                     <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
                         {singleDocument && (
                             <div className="mt-4 w-full flex flex-col items-center">
@@ -108,9 +108,9 @@ function SingleDoc() {
                             </div>
                         )}
                     </div>
-                </Card>
+                </div>
                 {isAuthor && (
-                    <div className="flex mt-4">
+                    <div className="flex mt-4 ">
                         <button
                             className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
                             onClick={() => handleEdit()}
