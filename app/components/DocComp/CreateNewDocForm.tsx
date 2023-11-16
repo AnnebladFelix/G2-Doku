@@ -77,16 +77,17 @@ function CreateNewDocForm() {
                         onChange={setContent}
                     />
                     <br />
-                    <label>
-                        Privat:
-                        <input
-                            type="checkbox"
-                            checked={isPrivate}
-                            onChange={() => setIsPrivate(!isPrivate)}
-                        />
-                    </label>
-                    <br />
-                    <button className="create-btn">Create Document</button>
+                    <div className="flex space-x-4 justify-center mb-4">
+                        <label>
+                            Privat:
+                            <input
+                                type="checkbox"
+                                checked={isPrivate}
+                                onChange={() => setIsPrivate(!isPrivate)}
+                            />
+                        </label>
+                        <button className="flex justify-center w-40 animate-pulse rounded-md shadow-md mb-2 hover:bg-[#5e8170] dark:text-white">Skapa Dokument</button>
+                    </div>
                 </form>
             </>
         );
