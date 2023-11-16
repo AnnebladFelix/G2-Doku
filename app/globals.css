@@ -16,6 +16,7 @@
   }
 } */
 
+
 @layer base {
   :root {
     --color-text: 0deg 84% 5%;
@@ -23,7 +24,7 @@
     --color-primary: 28deg 20% 33%;
     --color-secondary: 28deg 19% 75%;
     --color-accent: 0deg 50% 49%;
-    --color-accent2: 0deg 50% 49%;
+    --color-accent2: 151deg 16% 44%;
   }
   @media (prefers-color-scheme: dark){
     :root {
@@ -32,7 +33,7 @@
       --color-primary: 28deg 20% 67%;
       --color-secondary: 28deg 19% 24%;
       --color-accent: 0deg 50% 51%;
-      --color-accent2: 0deg 50% 49%;
+      --color-accent2: 151deg 16% 44%;
     }
   }
 }
