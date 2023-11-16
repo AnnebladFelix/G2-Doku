@@ -149,16 +149,16 @@ function SingleDoc() {
                         <p className="text-2xl">Kommentarer:</p>
                         {comments.map((comment, index) => (
                             <div
-                                className="flex flex-col bg-slate-600 m-2 max-w-sm"
+                                className="flex flex-col bg-primary m-2 max-w-sm"
                                 key={index}
                             >
-                                <p className="bg-slate-500">
+                                <p className="bg-secondary">
                                     Avsändare:{" "}
                                     {comment.user
                                         ? comment.user.name
                                         : "Okänd användare"}
                                 </p>
-                                <p>{comment.content}</p>
+                                <p className="text-text2">{comment.content}</p>
                             </div>
                         ))}
                     </div>
@@ -198,7 +198,7 @@ function SingleDoc() {
                             </div>
                         )}
                         {singleDocument && (
-                            <div className="flex">
+                            <div className="flex gap-60">
                                 <div className="mt-4">
                                     {
                                         <p>
@@ -215,7 +215,7 @@ function SingleDoc() {
                                         {formatDate(singleDocument.updatedAt)}
                                     </p>
                                 </div>
-                                <div className="flex flex-col m-2">
+                                <div className="flex flex-col m-2 text-text2">
                                     <textarea
                                         value={commentContent}
                                         onChange={handleCommentChange}

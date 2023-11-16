@@ -12,6 +12,7 @@ const config: Config = {
         primary: 'hsl(var(--color-primary) / <alpha-value>)',
         secondary: 'hsl(var(--color-secondary) / <alpha-value>)',
         text: 'hsl(var(--color-text) / <alpha-value>)',
+        text2: 'hsl(var(--color-text2) / <alpha-value>)',
         accent: 'hsl(var(--color-accent) / <alpha-value>)',
         accent2: 'hsl(var(--color-accent2) / <alpha-value>)',
         background: 'hsl(var(--color-background) / <alpha-value>)',
