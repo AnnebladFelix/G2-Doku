@@ -40,6 +40,7 @@ export default function Header() {
                     ? [{ label: "Skapa användare", href: "/auth/signup" }]
                     : []),
                   { label: "Dokument", href: "/documents" },
+                  { label: "Mina dokument", href: "/documents/myDoc" },
                   { label: "Skapa Dokument", href: "/documents/newDoc" },
                   { label: "Logga ut", href: "/auth/signout" },
               ]
