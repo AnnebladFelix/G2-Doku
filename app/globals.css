@@ -19,7 +19,7 @@
 @layer base {
   :root {
     --color-text: 0deg 84% 5%;
-    --color-tex2t: 0deg 84% 10%;
+    --color-text2: 0deg 84% 95%;
     --color-background: 0deg 0% 89%;
     --color-primary: 28deg 20% 33%;
     --color-secondary: 28deg 19% 75%;

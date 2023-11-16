@@ -149,16 +149,16 @@ function SingleDoc() {
                         <p className="text-2xl">Kommentarer:</p>
                         {comments.map((comment, index) => (
                             <div
-                                className="flex flex-col bg-primary m-2 max-w-sm"
+                                className="flex flex-col mb-4 max-w-sm"
                                 key={index}
                             >
-                                <p className="bg-secondary">
+                                <p className="bg-secondary pl-2">
                                     Avsändare:{" "}
                                     {comment.user
                                         ? comment.user.name
                                         : "Okänd användare"}
                                 </p>
-                                <p className="text-text2">{comment.content}</p>
+                                <p className="bg-primary text-text2 p-2">{comment.content}</p>
                             </div>
                         ))}
                     </div>
@@ -215,7 +215,7 @@ function SingleDoc() {
                                         {formatDate(singleDocument.updatedAt)}
                                     </p>
                                 </div>
-                                <div className="flex flex-col m-2 text-text2">
+                                <div className="flex flex-col m-2 text-black">
                                     <textarea
                                         value={commentContent}
                                         onChange={handleCommentChange}
