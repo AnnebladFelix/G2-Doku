@@ -5,9 +5,7 @@ export async function GET(
     req: NextResponse,
     { params }: { params: { id: string } }
 ) {
-    console.log(" MIN LOGGGG!!!!:", params);
     const id = params.id;
-    console.log("params:", params);
     try {
         const comments = await prisma.comments.findMany({
             where: { documentId: parseInt(id, 10) },
