@@ -52,8 +52,8 @@ const SignInForm = () => {
         <input className="bg-secondary" type='text' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Epost'/>
         <input className="bg-secondary" type='password' value={password} onChange={(e) => setPassword(e.target.value)}  placeholder='Lösenord'/>
 
-        <button className="rounded-md shadow-md mb-2 hover:animate-pulse bg-accent2 hover:bg-[#85b49d]" onClick={handleSubmit} disabled={loading}>
-            Sign In{loading && <Spinner />}
+        <button className="rounded-md shadow-md mb-2 hover:animate-pulse bg-accent2 hover:bg-accent2" onClick={handleSubmit} disabled={loading}>
+            Logga in{loading && <Spinner />}
         </button>
         <p className="text-2xl text-accent">
             {message}

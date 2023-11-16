@@ -111,10 +111,10 @@ function EditForm() {
                         </div>
                         <br />
                         <button
-                            className="flex justify-center w-40 animate-pulse rounded-md shadow-md mb-2 hover:bg-[#5e8170] dark:text-white"
+                            className="flex justify-center w-40 hover:animate-pulse rounded-md shadow-md mb-2 hover:bg-accent2 dark:text-white"
                             type="submit"
                         >
-                            Save Changes
+                            Spara
                         </button>
                     </div>
                 </form>
