@@ -96,11 +96,11 @@ function SingleDoc() {
                     <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
                         {singleDocument && (
                             <div className="mt-4 w-full flex flex-col items-center">
-                                <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid">
+                                <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid text-black">
                                     Rubrik: {singleDocument.title}
                                 </div>
                                 <div
-                                    className="flex flex-col items-center mt-4 w-full"
+                                    className="flex flex-col items-center mt-4 w-full text-black"
                                     dangerouslySetInnerHTML={{
                                         __html: singleDocument.content,
                                     }}

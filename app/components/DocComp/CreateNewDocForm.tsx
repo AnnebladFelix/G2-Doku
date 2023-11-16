@@ -65,6 +65,7 @@ function CreateNewDocForm() {
                         Rubrik:
                         <input
                             type="text"
+                            className="text-black"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
@@ -72,7 +73,7 @@ function CreateNewDocForm() {
                     <br />
                     <ReactQuill
                         theme="snow"
-                        className=" flex flex-col items-center mt-2"
+                        className=" flex flex-col items-center mt-2 text-black"
                         value={content}
                         onChange={setContent}
                     />
