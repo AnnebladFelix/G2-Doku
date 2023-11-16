@@ -73,7 +73,7 @@ const SignUpForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="rounded-md shadow-md mb-2 hover:animate-pulse bg-accent2 hover:bg-[#85b49d]" onClick={handleSubmit} disabled={loading}>Skapa användare{loading && <Spinner />}</button>
+        <button className="rounded-md shadow-md mb-2 hover:animate-pulse bg-accent2 hover:bg-accent2" onClick={handleSubmit} disabled={loading}>Skapa användare{loading && <Spinner />}</button>
         <p className="text-2xl text-accent">{message}</p>
       </div>
     </div>
