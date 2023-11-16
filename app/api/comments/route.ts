@@ -5,7 +5,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if (req.method !== "POST") {
         return NextResponse.json({ error: "Method not allowed", status: 405 });
     }
-    const { userId, documentId, content } = await req.json()
+    const { userId, documentId, content } = await req.json();
 
     try {
         const user = await prisma.user.findUnique({
@@ -17,7 +17,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
         });
 
         if (!user || !document) {
-            return NextResponse.json({ error: "User or document not found", status: 404 });
+            return NextResponse.json({
+                error: "User or document not found",
+                status: 404,
+            });
         }
 
         const newComment = await prisma.comments.create({
@@ -37,3 +40,5 @@ export async function POST(req: NextRequest, res: NextResponse) {
         });
     }
 }
+
+
