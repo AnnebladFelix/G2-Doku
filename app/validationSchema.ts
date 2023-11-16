@@ -41,3 +41,10 @@ export const createFlagSchema = z.object({
   documentId: z.number(),
   userId: z.string(),
 })
+
+export const getCommentsSchema = z.object({
+  content: z.string(),
+  user: z.object({
+    name: z.string()
+  }),
+})
