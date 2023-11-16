@@ -5,9 +5,9 @@ import { Table } from "@radix-ui/themes";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import z from "zod";
-import { StarIcon } from "@radix-ui/react-icons";
+import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
 
 type Document = z.infer<typeof getDocumentSchema>;
 
@@ -30,6 +30,10 @@ const MyDocPage = () => {
     const [error, setError] = useState("");
     const [author, setAuthor] = useState("");
     const [isFlagged, setIsFlagged] = useState<boolean>(false);
+    const [flaggedDocuments, setFlaggedDocuments] = useState<
+        Record<number, boolean>
+    >({});
+
 
     const router = useRouter();
 
@@ -50,13 +54,97 @@ const MyDocPage = () => {
         fetchData();
     }, [sessionAuthor, status]);
 
+    const fetchInitialData = useCallback(async () => {
+        try {
+            if (sessionAuthor && status === "authenticated") {
+                const [documentsResponse, flaggedDocumentsResponse] =
+                    await Promise.all([
+                        axios.get("/api/user/" + sessionAuthor),
+                        axios.get(`/api/flags/${sessionAuthor}`)
+                            .catch((error) => {
+                                console.error(
+                                    "Error fetching flagged documents:",
+                                    error.response?.data || error.message
+                                );
+                                return { data: [] };
+                            }),
+                    ]);
+
+                setDocuments(documentsResponse.data.documents);
+
+                const flaggedDocs = flaggedDocumentsResponse.data.flags.reduce(
+                    (
+                        acc: { [x: string]: boolean },
+                        doc: { documentId: string | number }
+                    ) => {
+                        acc[doc.documentId] = true;
+                        return acc;
+                    },
+                    {} as Record<number, boolean>
+                );
+                setFlaggedDocuments(flaggedDocs);
+            }
+        } catch (error) {
+            console.error("Error fetching documents or user data:", error);
+            setError("Error fetching documents or user data");
+        }
+    }, [sessionAuthor, status]);
+
+    useEffect(() => {
+        fetchInitialData();
+    }, [isFlagged, fetchInitialData]);
+
     const handleClick = (document: Document) => {
         router.push(`/documents/singleDoc?id=${document.id}`);
     };
 
-    const handleFlagClick = (document: Document) => {
-        console.log("Flaggad", document.id);
+    const handleFlagClick = async (
+        documentId: number,
+        userId: string
+    ): Promise<void> => {
+        try {
+            const response = await axios.post("/api/flags/" + documentId, {
+                documentId,
+                userId,
+            });
+            
+
+            if (response.status === 200) {
+                setFlaggedDocuments((prevState) => ({
+                    ...prevState,
+                    [documentId]: true,
+                }));
+
+                setIsFlagged((prevIsFlagged) => !prevIsFlagged);
+
+                setDocuments((prevDocuments) =>
+                    prevDocuments.map((doc) => {
+                        if (doc.id === documentId) {
+                            return {
+                                ...doc,
+                                isFlagged: true,
+                            };
+                        }
+                        return doc;
+                    })
+                );
+            } else {
+                console.error("Error flagging document:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error flagging document:", error);
+        }
     };
+
+    const sortedDocuments = [...documents].sort((a, b) => {
+        if (flaggedDocuments[a.id] === flaggedDocuments[b.id]) {
+            return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            );
+        }
+        return flaggedDocuments[b.id] ? 1 : -1;
+    });
 
     const getAllDoc = () => {
         router.push(`/documents`);
@@ -94,7 +182,7 @@ const MyDocPage = () => {
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {documents.map((document) => (
+                            {sortedDocuments.map((document) => (
                                 <Table.Row key={document.id}>
                                     <Table.Cell className="max-w-[200px] px-4">
                                         <button
@@ -123,11 +211,11 @@ const MyDocPage = () => {
                                     <Table.Cell>
                                         <button
                                             onClick={() =>
-                                                handleFlagClick(document)
+                                                handleFlagClick(document.id, sessionAuthor)
                                             }
                                         >
-                                            {isFlagged ? (
-                                                <StarIcon
+                                            {flaggedDocuments[document.id] ? (
+                                                <StarFilledIcon
                                                     style={{
                                                         width: "20px",
                                                         height: "20px",

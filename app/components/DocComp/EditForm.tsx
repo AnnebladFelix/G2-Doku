@@ -111,7 +111,7 @@ function EditForm() {
                         </div>
                         <br />
                         <button
-                            className="flex justify-center w-40 hover:animate-pulse rounded-md shadow-md mb-2 hover:bg-accent2 dark:text-white"
+                            className="flex justify-center bg-accent2 w-40 hover:animate-pulse rounded-md shadow-md mb-2  dark:text-white"
                             type="submit"
                         >
                             Spara
