@@ -16,6 +16,7 @@
   }
 } */
 
+
 @layer base {
   :root {
     --color-text: 0deg 84% 5%;
@@ -23,7 +24,7 @@
     --color-primary: 28deg 20% 33%;
     --color-secondary: 28deg 19% 75%;
     --color-accent: 0deg 50% 49%;
-    --color-accent2: 0deg 50% 49%;
+    --color-accent2: 151deg 16% 44%;
   }
   @media (prefers-color-scheme: dark){
     :root {
@@ -32,7 +33,7 @@
       --color-primary: 28deg 20% 67%;
       --color-secondary: 28deg 19% 24%;
       --color-accent: 0deg 50% 51%;
-      --color-accent2: 0deg 50% 49%;
+      --color-accent2: 151deg 16% 44%;
     }
   }
 }
@@ -52,6 +53,15 @@ body {
   width: 8.5in;
   min-height: 11in;
   padding: 1in !important;
+  margin: 1rem;
+  box-shadow: 0 0 5px 0 rgb(0, 0, 0, .5);
+  background-color: white;
+}
+.ql-editor2 {
+  width: 8.5in;
+  min-height: 11in;
+  max-height: 11in;
+  padding: 0 1in 1in 1in !important;
   margin: 1rem;
   box-shadow: 0 0 5px 0 rgb(0, 0, 0, .5);
   background-color: white;

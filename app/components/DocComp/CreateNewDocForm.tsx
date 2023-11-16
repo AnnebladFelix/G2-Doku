@@ -65,6 +65,7 @@ function CreateNewDocForm() {
                         Rubrik:
                         <input
                             type="text"
+                            className="text-black"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
@@ -72,7 +73,7 @@ function CreateNewDocForm() {
                     <br />
                     <ReactQuill
                         theme="snow"
-                        className=" flex flex-col items-center mt-2"
+                        className=" flex flex-col items-center mt-2 text-black"
                         value={content}
                         onChange={setContent}
                     />
@@ -86,7 +87,7 @@ function CreateNewDocForm() {
                                 onChange={() => setIsPrivate(!isPrivate)}
                             />
                         </label>
-                        <button className="flex justify-center w-40 animate-pulse rounded-md shadow-md mb-2 hover:bg-[#5e8170] dark:text-white">Skapa Dokument</button>
+                        <button className="flex justify-center w-40 hover:animate-pulse rounded-md shadow-md mb-2 bg-accent2 hover:bg-accent2 text-text">Skapa Dokument</button>
                     </div>
                 </form>
             </>

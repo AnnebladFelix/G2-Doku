@@ -47,7 +47,7 @@ export default function Header() {
     ];
 
     return (
-        <div className="header flex gap-4 mt-4 text-xl justify-between p-2 border-stone-500 border-b-2">
+        <div className="header flex gap-4 mt-4 text-xl justify-around p-2 border-stone-500 border-b-2">
             <Logo />
             {status === "authenticated" ? (
                 <h1 className="welcome">Hej, {session.user?.name}!</h1>
