@@ -87,6 +87,7 @@ const GetAllDocsPage = () => {
                 documentId,
                 userId,
             });
+            
 
             if (response.status === 200) {
                 setFlaggedDocuments((prevState) => ({

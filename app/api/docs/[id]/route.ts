@@ -6,7 +6,6 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const id = params.id;
     const body = await request.json();
     const validation = editDocumentSchema.safeParse(body);
-    console.log("Detta", id, body, validation);
 
     if (!validation.success) {
         console.error('Validation error:', validation.error.errors);

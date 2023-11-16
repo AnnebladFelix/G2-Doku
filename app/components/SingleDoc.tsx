@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { getDocumentSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import axios from "axios";
@@ -19,6 +19,8 @@ function SingleDoc() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const router = useRouter();
+    const [commentContent, setCommentContent] = useState("");
+    const [comments, setComments] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchDocument = async () => {
@@ -36,6 +38,27 @@ function SingleDoc() {
             }
         };
         fetchDocument();
+    }, [id]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                console.log("Fetching comments for document ID:", id);
+                const response = await axios.get(`/api/comments/${id}`);
+                console.log("min responseLogg", response);
+
+                setComments((prevComments) => [
+                    ...prevComments,
+                    ...response.data.content,
+                ]);
+            } catch (error) {
+                console.error("Error fetching comments:", error);
+            }
+        };
+
+        if (id) {
+            fetchComments();
+        }
     }, [id]);
 
     const formatDate = (dateString: string): string => {
@@ -85,12 +108,52 @@ function SingleDoc() {
         setShowDeleteModal(false);
     };
 
+    const handleCommentChange = (
+        event: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+        setCommentContent(event.target.value);
+    };
+
+    const handleComment = async () => {
+        try {
+            const response = await axios.post("/api/comments", {
+                userId: session?.user?.sub,
+                documentId: singleDocument?.id,
+                content: commentContent,
+            });
+            console.log(response);
+
+            if (response.status === 200) {
+                setComments((prevComments) => [
+                    ...prevComments,
+                    response.data.content,
+                ]);
+                setCommentContent("");
+            } else {
+                console.error("Error creating comment:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error creating comment:", error);
+        }
+    };
+
     const isAuthor =
         status === "authenticated" &&
         session?.user?.sub === singleDocument?.authorId;
 
     if (status === "authenticated") {
         return (
+            <div className="flex items-center justify-center h-full">
+                <div className="m-2 ">
+                    <p className="text-2xl">Kommentarer:</p>
+                    {comments.map((comment, index) => (
+                        <div className="flex flex-col bg-slate-600 m-2 max-w-sm" key={index}>
+                            <p className="bg-slate-500">Avsändare: {comment.user.name}</p>
+                            <p >{comment.content}</p>
+                        </div>
+                    ))}
+                </div>
+              <div>
             <div className="flex flex-col items-center justify-center h-full ">
                 <div className=" ql-editor2 overflow-y-scroll bg-white">
                     <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
@@ -142,21 +205,47 @@ function SingleDoc() {
                             </Text>
                             <div className="flex justify-end mt-4">
                                 <button
-                                    className="bg-[#bb3e3e] text-white px-4 py-2 rounded-md mr-2"
-                                    onClick={handleConfirmDelete}
+                                    className=" w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                    onClick={handleComment}
                                 >
-                                    Ja
-                                </button>
-                                <button
-                                    className="bg-[#5e8170] text-white px-4 py-2 rounded-md"
-                                    onClick={handleCancelDelete}
-                                >
-                                    Avbryt
+                                    Kommentera
                                 </button>
                             </div>
-                        </Card>
-                    </div>
-                )}
+                        </div>
+                    )}
+                    {showDeleteModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <Card
+                                size="2"
+                                style={{
+                                    width: 300,
+                                    padding: 20,
+                                    borderRadius: 10,
+                                    backgroundColor: "whitesmoke",
+                                }}
+                            >
+                                <Text>
+                                    Är du säker på att du vill ta bort detta
+                                    dokument?
+                                </Text>
+                                <div className="flex justify-end mt-4">
+                                    <button
+                                        className="bg-[#bb3e3e] text-white px-4 py-2 rounded-md mr-2"
+                                        onClick={handleConfirmDelete}
+                                    >
+                                        Ja
+                                    </button>
+                                    <button
+                                        className="bg-[#5e8170] text-white px-4 py-2 rounded-md"
+                                        onClick={handleCancelDelete}
+                                    >
+                                        Avbryt
+                                    </button>
+                                </div>
+                            </Card>
+                        </div>
+                    )}
+                </div>
             </div>
         );
     } else {
