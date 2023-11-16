@@ -143,108 +143,103 @@ function SingleDoc() {
 
     if (status === "authenticated") {
         return (
-            <div className="flex items-center justify-center h-full">
-                <div className="m-2 ">
-                    <p className="text-2xl">Kommentarer:</p>
-                    {comments.map((comment, index) => (
-                        <div className="flex flex-col bg-slate-600 m-2 max-w-sm" key={index}>
-                            <p className="bg-slate-500">Avsändare: {comment.user.name}</p>
-                            <p >{comment.content}</p>
+            <div>
+                <div className="flex items-center justify-center h-full">
+                    <div className="m-2 ">
+                        <p className="text-2xl">Kommentarer:</p>
+                        {comments.map((comment, index) => (
+                            <div
+                                className="flex flex-col bg-slate-600 m-2 max-w-sm"
+                                key={index}
+                            >
+                                <p className="bg-slate-500">
+                                    Avsändare: {comment.user.name}
+                                </p>
+                                <p>{comment.content}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex flex-col items-center justify-center h-full ">
+                        <div className=" ql-editor2 overflow-y-scroll bg-white">
+                            <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
+                                {singleDocument && (
+                                    <div className="mt-4 w-full flex flex-col items-center">
+                                        <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid text-black">
+                                            Rubrik: {singleDocument.title}
+                                        </div>
+                                        <div
+                                            className="flex flex-col items-center mt-4 w-full text-black"
+                                            dangerouslySetInnerHTML={{
+                                                __html: singleDocument.content,
+                                            }}
+                                        ></div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    ))}
-                </div>
-              <div>
-            <div className="flex flex-col items-center justify-center h-full ">
-                <div className=" ql-editor2 overflow-y-scroll bg-white">
-                    <div className="flex flex-col items-center h-full w-full flex-grow rounded-lg  bg-white">
+                        {isAuthor && (
+                            <div className="flex mt-4 ">
+                                <button
+                                    className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                    onClick={() => handleEdit()}
+                                >
+                                    Redigera
+                                </button>
+                                <span className="mx-2 "></span>
+                                <button
+                                    className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#bb3e3e] hover:bg-[#e97f7f]"
+                                    onClick={() => handleDelete()}
+                                >
+                                    Ta bort
+                                </button>
+                            </div>
+                        )}
                         {singleDocument && (
-                            <div className="mt-4 w-full flex flex-col items-center">
-                                <div className="flex flex-col items-center text-2xl mt-4 underline decoration-solid text-black">
-                                    Rubrik: {singleDocument.title}
-                                </div>
-                                <div
-                                    className="flex flex-col items-center mt-4 w-full text-black"
-                                    dangerouslySetInnerHTML={{
-                                        __html: singleDocument.content,
+                            <div className="mt-4">
+                                {<p>Skapad av: {singleDocument.author.name}</p>}
+                                <p>
+                                    Skapad:{" "}
+                                    {formatDate(singleDocument.createdAt)}
+                                </p>
+                                <p>
+                                    Ändrad:{" "}
+                                    {formatDate(singleDocument.updatedAt)}
+                                </p>
+                            </div>
+                        )}
+                        {showDeleteModal && (
+                            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                <Card
+                                    size="2"
+                                    style={{
+                                        width: 300,
+                                        padding: 20,
+                                        borderRadius: 10,
+                                        backgroundColor: "whitesmoke",
                                     }}
-                                ></div>
+                                >
+                                    <Text>
+                                        Är du säker på att du vill ta bort detta
+                                        dokument?
+                                    </Text>
+                                    <div className="flex justify-end mt-4">
+                                        <button
+                                            className="bg-[#bb3e3e] text-white px-4 py-2 rounded-md mr-2"
+                                            onClick={handleConfirmDelete}
+                                        >
+                                            Ja
+                                        </button>
+                                        <button
+                                            className="bg-[#5e8170] text-white px-4 py-2 rounded-md"
+                                            onClick={handleCancelDelete}
+                                        >
+                                            Avbryt
+                                        </button>
+                                    </div>
+                                </Card>
                             </div>
                         )}
                     </div>
-                </div>
-                {isAuthor && (
-                    <div className="flex mt-4 ">
-                        <button
-                            className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
-                            onClick={() => handleEdit()}
-                        >
-                            Redigera
-                        </button>
-                        <span className="mx-2 "></span>
-                        <button
-                            className=" w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#bb3e3e] hover:bg-[#e97f7f]"
-                            onClick={() => handleDelete()}
-                        >
-                            Ta bort
-                        </button>
-                    </div>
-                )}
-                {singleDocument && (
-                    <div className="mt-4">
-                        {<p>Skapad av: {singleDocument.author.name}</p>}
-                        <p>Skapad: {formatDate(singleDocument.createdAt)}</p>
-                        <p>Ändrad: {formatDate(singleDocument.updatedAt)}</p>
-                    </div>
-                )}
-                {showDeleteModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <Card size="2" style={{ width: 300, padding: 20, borderRadius: 10, backgroundColor: "whitesmoke"}}>
-                            <Text>
-                                Är du säker på att du vill ta bort detta
-                                dokument?
-                            </Text>
-                            <div className="flex justify-end mt-4">
-                                <button
-                                    className=" w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
-                                    onClick={handleComment}
-                                >
-                                    Kommentera
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                    {showDeleteModal && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                            <Card
-                                size="2"
-                                style={{
-                                    width: 300,
-                                    padding: 20,
-                                    borderRadius: 10,
-                                    backgroundColor: "whitesmoke",
-                                }}
-                            >
-                                <Text>
-                                    Är du säker på att du vill ta bort detta
-                                    dokument?
-                                </Text>
-                                <div className="flex justify-end mt-4">
-                                    <button
-                                        className="bg-[#bb3e3e] text-white px-4 py-2 rounded-md mr-2"
-                                        onClick={handleConfirmDelete}
-                                    >
-                                        Ja
-                                    </button>
-                                    <button
-                                        className="bg-[#5e8170] text-white px-4 py-2 rounded-md"
-                                        onClick={handleCancelDelete}
-                                    >
-                                        Avbryt
-                                    </button>
-                                </div>
-                            </Card>
-                        </div>
-                    )}
                 </div>
             </div>
         );
