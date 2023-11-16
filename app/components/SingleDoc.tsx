@@ -7,7 +7,7 @@ import { z } from "zod";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { Card, Text } from "@radix-ui/themes";
-import {getCommentsSchema} from "@/app/validationSchema";
+import { getCommentsSchema } from "@/app/validationSchema";
 
 type Document = z.infer<typeof getDocumentSchema>;
 type Comment = z.infer<typeof getCommentsSchema>;
@@ -45,9 +45,7 @@ function SingleDoc() {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                console.log("Fetching comments for document ID:", id);
                 const response = await axios.get(`/api/comments/${id}`);
-                console.log("min responseLogg", response);
 
                 setComments((prevComments) => [
                     ...prevComments,
@@ -116,20 +114,20 @@ function SingleDoc() {
         setCommentContent(event.target.value);
     };
 
-    const handleComment = async () => {
+    const handleComment = useCallback(async () => {
         try {
             const response = await axios.post("/api/comments", {
                 userId: session?.user?.sub,
                 documentId: singleDocument?.id,
                 content: commentContent,
             });
-            console.log(response);
 
             if (response.status === 200) {
-                setComments((prevComments) => [
-                    ...prevComments,
-                    response.data.content,
-                ]);
+                const latestCommentsResponse = await axios.get(
+                    `/api/comments/${id}`
+                );
+                setComments(latestCommentsResponse.data.content);
+
                 setCommentContent("");
             } else {
                 console.error("Error creating comment:", response.statusText);
@@ -137,7 +135,7 @@ function SingleDoc() {
         } catch (error) {
             console.error("Error creating comment:", error);
         }
-    };
+    }, [id, commentContent, session?.user?.sub, singleDocument?.id]);
 
     const isAuthor =
         status === "authenticated" &&
@@ -155,7 +153,10 @@ function SingleDoc() {
                                 key={index}
                             >
                                 <p className="bg-slate-500">
-                                    Avsändare: {comment.user.name}
+                                    Avsändare:{" "}
+                                    {comment.user
+                                        ? comment.user.name
+                                        : "Okänd användare"}
                                 </p>
                                 <p>{comment.content}</p>
                             </div>
@@ -214,19 +215,19 @@ function SingleDoc() {
                                         {formatDate(singleDocument.updatedAt)}
                                     </p>
                                 </div>
-                                    <div className="flex flex-col m-2">
-                                        <textarea
-                                            value={commentContent}
-                                            onChange={handleCommentChange}
-                                            placeholder="Lämna en kommentar här..."
-                                        />
-                                        <button
-                                            className=" w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
-                                            onClick={handleComment}
-                                        >
-                                            Kommentera
-                                        </button>
-                                    </div>
+                                <div className="flex flex-col m-2">
+                                    <textarea
+                                        value={commentContent}
+                                        onChange={handleCommentChange}
+                                        placeholder="Lämna en kommentar här..."
+                                    />
+                                    <button
+                                        className=" w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                        onClick={handleComment}
+                                    >
+                                        Kommentera
+                                    </button>
+                                </div>
                             </div>
                         )}
                         {showDeleteModal && (
