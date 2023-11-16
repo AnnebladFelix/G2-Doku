@@ -28,14 +28,12 @@ const SignInForm = () => {
 
             if (!signinResponse || signinResponse.ok !== true) {
                 setMessage("Fel inloggning, vargod försök igen");
-                console.log(setMessage);
             } else {
                 router.refresh();
             }
 
         } catch (err) {
             setLoading(false)
-            console.log(err);
         }
     };
 

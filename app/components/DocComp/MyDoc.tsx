@@ -41,7 +41,6 @@ const MyDocPage = () => {
                         "/api/user/" + sessionAuthor
                     );
                     setDocuments(response.data.documents);
-                    console.log(response);
                     setAuthor(response.data.name);
                 }
             } catch (error) {

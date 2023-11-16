@@ -37,7 +37,6 @@ function CreateNewDocForm() {
 
             if (response.status === 200) {
                 const data = response.data;
-                console.log("Document created:", data);
                 setTitle("");
                 setContent("");
                 setIsPrivate(false);
