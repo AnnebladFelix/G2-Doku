@@ -57,7 +57,6 @@ const MyDocPage = () => {
 
     const handleFlagClick = (document: Document) => {
         console.log("Flaggad", document.id);
-
     };
 
     const getAllDoc = () => {
