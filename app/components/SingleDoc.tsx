@@ -143,8 +143,8 @@ function SingleDoc() {
 
     if (status === "authenticated") {
         return (
-            <div className="flex flex-col md:flex-row items-center justify-center h-full">
-                <div className="m-2 md:w-1/3 order-1">
+            <div className="flex flex-row min-w-min h-full">
+                <div className="m-2 md:w-1/3">
                     <p className="text-2xl">Kommentarer:</p>
                     {comments.map((comment, index) => (
                         <div
