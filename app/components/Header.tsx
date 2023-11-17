@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import classnames from "classnames";
 import { usePathname } from "next/navigation";
 import axios from "axios";
+import {HamburgerMenuIcon} from '@radix-ui/react-icons'
 
 export default function Header() {
     const { data: session, status } = useSession();
@@ -55,22 +56,25 @@ export default function Header() {
             ) : (
                 <h1 className="welcome">Välkommen till G2 dokument!</h1>
             )}
-            <div className="flex gap-4">
-                <ul className="flex space-x-5">
-                    {links.map((link) => (
-                        <Link
-                            key={link.href}
-                            className={classnames({
-                                "text-primary": link.href === currentPath,
-                                "text-secondary": link.href !== currentPath,
-                                "hover:text-primary transition-colors": true,
-                            })}
-                            href={link.href}
-                        >
-                            {link.label}
-                        </Link>
-                    ))}
-                </ul>
+            <div className="dropdown">
+                <span><HamburgerMenuIcon/></span>
+                <div className="dropdown-content">
+                    <ul className="flex flex-col">
+                        {links.map((link) => (
+                            <Link
+                                key={link.href}
+                                className={classnames({
+                                    "text-primary": link.href === currentPath,
+                                    "text-secondary": link.href !== currentPath,
+                                    "hover:text-primary transition-colors": true,
+                                })}
+                                href={link.href}
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );

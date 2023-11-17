@@ -149,16 +149,16 @@ const GetAllDocsPage = () => {
                     <Table.Root>
                         <Table.Header>
                             <Table.Row>
-                                <Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell >
                                     Titel
                                 </Table.ColumnHeaderCell>
                                 <Table.ColumnHeaderCell>
                                     Författare
                                 </Table.ColumnHeaderCell>
-                                <Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell >
                                     Skapad
                                 </Table.ColumnHeaderCell>
-                                <Table.ColumnHeaderCell>
+                                <Table.ColumnHeaderCell className="hidden xxs:block">
                                     Ändrad
                                 </Table.ColumnHeaderCell>
                                 <Table.ColumnHeaderCell>
@@ -183,12 +183,12 @@ const GetAllDocsPage = () => {
                                             {getAuthorName(document.authorId)}
                                         </span>
                                     </Table.Cell>
-                                    <Table.Cell>
+                                    <Table.Cell >
                                         <span style={{ padding: "0.25rem" }}>
                                             {formatDate(document.createdAt)}
                                         </span>
                                     </Table.Cell>
-                                    <Table.Cell>
+                                    <Table.Cell className="hidden xxs:block">
                                         <span style={{ padding: "0.25rem" }}>
                                             {formatDate(document.updatedAt)}
                                         </span>
