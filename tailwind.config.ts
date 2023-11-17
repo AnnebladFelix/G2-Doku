@@ -7,6 +7,10 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'xxs': '440px',
+      'xs': '540px', 
+    },
     extend: {
       colors: {
         primary: 'hsl(var(--color-primary) / <alpha-value>)',
