@@ -1,8 +1,28 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+To VScode add extension:
+Prisma
+by Prisma.
+now clone project locally.
+```bash
+npm git clone https://github.com/AnnebladFelix/G2-Doku.git
+```
+```bash
+cd g2-doku
+```
+```bash
+npm install
+```
 
-First, run the development server:
+Add .env file to the root folder and inside that add the right keys.
+
+to view tables in the db run:
+```bash
+prisma studio
+```
+
+To view application in browser run the development server:
 
 ```bash
 npm run dev
