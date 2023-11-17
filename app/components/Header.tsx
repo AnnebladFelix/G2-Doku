@@ -13,6 +13,25 @@ export default function Header() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const currentPath = usePathname();
     const [admin, setAdmin] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth > 900) {
+          setShowDropdown(true);
+        } else {
+          setShowDropdown(false);
+        }
+    
+        const updateMedia = () => {
+          if (window.innerWidth > 900) {
+            setShowDropdown(true);
+          } else {
+            setShowDropdown(false);
+          }
+        };
+        window.addEventListener('resize', updateMedia);
+        return () => window.removeEventListener('resize', updateMedia);
+      }, []);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -56,8 +75,28 @@ export default function Header() {
             ) : (
                 <h1 className="welcome">Välkommen till G2 dokument!</h1>
             )}
+            { showDropdown ? (
+                <div className="flex gap-4">
+                <ul className="flex space-x-5">
+                    {links.map((link) => (
+                        <Link
+                            key={link.href}
+                            className={classnames({
+                                "text-primary": link.href === currentPath,
+                                "text-secondary": link.href !== currentPath,
+                                "hover:text-primary transition-colors": true,
+                            })}
+                            href={link.href}
+                        >
+                            {link.label}
+                        </Link>
+                    ))}
+                </ul>
+            </div>) : (
             <div className="dropdown">
-                <span><HamburgerMenuIcon/></span>
+                <div className="rounded-full w-8 h-8 bg-secondary flex justify-center items-center ">
+                    <span><HamburgerMenuIcon/></span>
+                </div>
                 <div className="dropdown-content">
                     <ul className="flex flex-col">
                         {links.map((link) => (
@@ -76,6 +115,7 @@ export default function Header() {
                     </ul>
                 </div>
             </div>
+            )}
         </div>
     );
 }
