@@ -143,12 +143,12 @@ function SingleDoc() {
 
     if (status === "authenticated") {
         return (
-            <div className="flex flex-col md:flex-row items-center justify-center h-full">
-                <div className="m-2 md:w-1/3 order-1">
+            <div className="container flex flex-row min-w-min h-full lg:ml-60">
+                <div className="m-2">
                     <p className="text-2xl">Kommentarer:</p>
                     {comments.map((comment, index) => (
                         <div
-                            className="flex flex-col mb-4 max-w-sm"
+                            className="flex flex-col mb-4 w-64"
                             key={index}
                         >
                             <p className="bg-secondary pl-2">
@@ -163,7 +163,7 @@ function SingleDoc() {
                         </div>
                     ))}
                 </div>
-                <div className="flex flex-col items-center md:items-start w-full md:w-2/3">
+                <div className="flex flex-col items-center w-full">
                     <div className="ql-editor2 overflow-y-scroll bg-white">
                         <div className="flex flex-col items-center w-full">
                             {singleDocument && (
@@ -184,13 +184,13 @@ function SingleDoc() {
                     {isAuthor && (
                         <div className="flex mt-4 gap-10">
                             <button
-                                className="w-36 md:w-40 rounded-md shadow-md mb-2 md:mr-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                className="w-36 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
                                 onClick={() => handleEdit()}
                             >
                                 Redigera
                             </button>
                             <button
-                                className="w-36 md:w-40 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#bb3e3e] hover:bg-[#e97f7f]"
+                                className="w-36 rounded-md shadow-md mb-2 hover:animate-pulse bg-[#bb3e3e] hover:bg-[#e97f7f]"
                                 onClick={() => handleDelete()}
                             >
                                 Ta bort
@@ -198,8 +198,8 @@ function SingleDoc() {
                         </div>
                     )}
                     {singleDocument && (
-                        <div className="flex flex-col md:flex-row gap-4 mt-4">
-                            <div className="md:mt-0">
+                        <div className="flex flex-row gap-4 m-4">
+                            <div className="">
                                 <p>Skapad av: {singleDocument.author.name}</p>
                                 <p>
                                     Skapad:{" "}
@@ -217,7 +217,7 @@ function SingleDoc() {
                                     placeholder="Lämna en kommentar här..."
                                 />
                                 <button
-                                    className="w-full md:w-40 rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
+                                    className="w-full rounded-md shadow-md mt-2 hover:animate-pulse bg-[#5e8170] hover:bg-[#85b49d]"
                                     onClick={handleComment}
                                 >
                                     Kommentera
